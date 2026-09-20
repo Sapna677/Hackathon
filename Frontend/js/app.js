@@ -68,6 +68,24 @@ const App = {
     const target = document.getElementById(`view-${viewId}`);
     if (!target) return;
 
+    // Toggle Navbar between Student Mode and Dedicated Admin Mode
+    const studentNav = document.getElementById('studentNavLinks');
+    const adminNav = document.getElementById('adminNavLinks');
+    const adminBrandBadge = document.getElementById('adminBrandBadge');
+    const navBrandSubtitle = document.getElementById('navBrandSubtitle');
+
+    if (viewId === 'admin') {
+      if (studentNav) studentNav.style.display = 'none';
+      if (adminNav) adminNav.style.display = 'flex';
+      if (adminBrandBadge) adminBrandBadge.style.display = 'inline-block';
+      if (navBrandSubtitle) navBrandSubtitle.textContent = 'Administrator Management Console';
+    } else {
+      if (studentNav) studentNav.style.display = 'flex';
+      if (adminNav) adminNav.style.display = 'none';
+      if (adminBrandBadge) adminBrandBadge.style.display = 'none';
+      if (navBrandSubtitle) navBrandSubtitle.textContent = 'Skill Gap & Readiness Platform';
+    }
+
     // Deactivate current view
     document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
     target.classList.add('active');
@@ -76,7 +94,7 @@ const App = {
     document.querySelectorAll('.nav-item').forEach(item => {
       if (item.getAttribute('data-navigate') === viewId) {
         item.classList.add('active');
-      } else {
+      } else if (!item.hasAttribute('data-admin-scroll')) {
         item.classList.remove('active');
       }
     });

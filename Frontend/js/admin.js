@@ -62,6 +62,31 @@ const AdminManager = {
         }
       });
     }
+
+    // Admin Scroll Quick Navigation
+    document.querySelectorAll('[data-admin-scroll]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = btn.getAttribute('data-admin-scroll');
+        if (window.App && window.App.activeView !== 'admin') {
+          window.App.navigateTo('admin');
+        }
+
+        document.querySelectorAll('#adminNavLinks .nav-item').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (target === 'directory') {
+          const el = document.getElementById('adminUsersTableBody') || document.getElementById('adminUserSearch');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (target === 'gaps') {
+          const el = document.getElementById('adminTopSkillGaps');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (target === 'skills') {
+          const el = document.getElementById('adminTopDemands');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
   },
 
   async loadAllAdminData(showNotice = false) {
@@ -81,7 +106,8 @@ const AdminManager = {
 
   async loadOverview() {
     try {
-      const res = await window.ApiClient.get('/admin/overview');
+      const client = window.api || window.ApiClient;
+      const res = client && client.get ? await client.get('/admin/overview') : await client.request('/admin/overview');
       if (res && res.success && res.data) {
         this.renderOverview(res.data);
       }
@@ -152,7 +178,8 @@ const AdminManager = {
 
   async loadUsers() {
     try {
-      const res = await window.ApiClient.get('/admin/users');
+      const client = window.api || window.ApiClient;
+      const res = client && client.get ? await client.get('/admin/users') : await client.request('/admin/users');
       if (res && res.success && res.users) {
         this.allUsers = res.users;
         this.filterUsers();
@@ -303,7 +330,8 @@ const AdminManager = {
     try {
       if (window.showToast) window.showToast('Fetching student progress dossier...', 'info');
 
-      const res = await window.ApiClient.get(`/admin/user/${userId}`);
+      const client = window.api || window.ApiClient;
+      const res = client && client.get ? await client.get(`/admin/user/${userId}`) : await client.request(`/admin/user/${userId}`);
       if (!res || !res.success) {
         if (window.showToast) window.showToast('Could not fetch student dossier', 'error');
         return;

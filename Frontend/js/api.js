@@ -53,6 +53,17 @@ class ApiClient {
     }
   }
 
+  get(endpoint) {
+    return this.request(endpoint, { method: 'GET' });
+  }
+
+  post(endpoint, body = {}) {
+    return this.request(endpoint, {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
+  }
+
   // Auth endpoints
   login(email, password) {
     return this.request('/auth/login', {
@@ -174,3 +185,4 @@ class ApiClient {
 
 const api = new ApiClient();
 window.api = api;
+window.ApiClient = api;

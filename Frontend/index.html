@@ -16,20 +16,33 @@
     <a href="#home" class="nav-brand" data-navigate="home">
       <div class="brand-icon">🎓</div>
       <div>
-        <span style="letter-spacing: -0.5px;">CareerReady <span style="color: var(--primary);">AI</span></span>
-        <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 500; margin-top: -3px;">Skill Gap & Readiness Platform</div>
+        <div style="display: flex; align-items: center; gap: 0.45rem;">
+          <span style="letter-spacing: -0.5px;">CareerReady <span style="color: var(--primary);">AI</span></span>
+          <span id="adminBrandBadge" class="badge" style="display: none; background: #ede9fe; color: #4338ca; font-weight: 700; font-size: 0.72rem; padding: 0.15rem 0.5rem; border: 1px solid #c4b5fd;">🛡️ Admin Console</span>
+        </div>
+        <div id="navBrandSubtitle" style="font-size: 0.65rem; color: var(--text-muted); font-weight: 500; margin-top: -3px;">Skill Gap &amp; Readiness Platform</div>
       </div>
     </a>
 
-    <ul class="nav-links">
+    <!-- Student Navigation Links (Default Mode) -->
+    <ul id="studentNavLinks" class="nav-links">
       <li class="nav-item active" data-navigate="home">🏠 Home</li>
       <li class="nav-item" data-navigate="dashboard">📊 Dashboard</li>
       <li class="nav-item" data-navigate="resume">📄 Upload Resume</li>
       <li class="nav-item" data-navigate="jd">🎯 Job Description</li>
-      <li class="nav-item" data-navigate="analysis">⚡ Skill Gap & Roadmap</li>
+      <li class="nav-item" data-navigate="analysis">⚡ Skill Gap &amp; Roadmap</li>
       <li class="nav-item" data-navigate="quiz">📝 AI Quiz</li>
       <li class="nav-item" data-navigate="progress">📈 Progress</li>
       <li class="nav-item" data-navigate="admin" style="color: #4f46e5; font-weight: 700;">🛡️ Admin Portal</li>
+    </ul>
+
+    <!-- Dedicated Admin Navigation Links (Active only on Admin Portal) -->
+    <ul id="adminNavLinks" class="nav-links" style="display: none;">
+      <li class="nav-item active" data-navigate="admin">📊 Overview &amp; KPIs</li>
+      <li class="nav-item" data-admin-scroll="directory">👥 Student Directory</li>
+      <li class="nav-item" data-admin-scroll="gaps">⚠️ Cohort Skill Gaps</li>
+      <li class="nav-item" data-admin-scroll="skills">🌟 Top Verified Skills</li>
+      <li class="nav-item" data-navigate="dashboard" style="color: #0284c7; font-weight: 700; background: #f0f9ff; border: 1px solid #bae6fd;">👁️ Student Mode</li>
     </ul>
 
     <div class="nav-auth">
@@ -897,7 +910,7 @@
     </div>
 
     <!-- Real-Time User Directory & Progress Table -->
-    <div class="card" style="padding: 0; overflow: hidden;">
+    <div id="adminDirectoryCard" class="card" style="padding: 0; overflow: hidden;">
       <div style="padding: 1.25rem 1.5rem; background: #ffffff; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
         <div style="display: flex; align-items: center; gap: 0.75rem;">
           <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">Learners Progress Directory</h3>

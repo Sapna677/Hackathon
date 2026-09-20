@@ -104,6 +104,12 @@ body {
   box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.2);
 }
 
+#adminNavLinks .nav-item.active {
+  color: #4338ca;
+  background: #ede9fe;
+  box-shadow: inset 0 0 0 1px #c4b5fd;
+}
+
 .nav-auth {
   display: flex;
   align-items: center;
