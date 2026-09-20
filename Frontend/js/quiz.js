@@ -13,6 +13,10 @@ const QuizManager = {
   userAnswers: {},
   timerInterval: null,
   secondsLeft: 300,
+  isLoading: false,
+  isSubmitting: false,
+  quizCompleted: false,
+  lastResult: null,
 
   init() {
     this.bindEvents();
@@ -21,28 +25,54 @@ const QuizManager = {
   bindEvents() {
     const startNewQuizBtn = document.getElementById('startNewQuizBtn');
     if (startNewQuizBtn) {
-      startNewQuizBtn.addEventListener('click', () => {
-        this.startAssessment();
+      startNewQuizBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.retakeAssessment();
       });
     }
 
     const startIntroBtn = document.getElementById('startQuizFromIntroBtn');
     if (startIntroBtn) {
-      startIntroBtn.addEventListener('click', () => {
+      startIntroBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         this.startAssessment();
       });
     }
 
     const retakeBtn = document.getElementById('retakeQuizBtn');
     if (retakeBtn) {
-      retakeBtn.addEventListener('click', () => {
-        this.startAssessment();
+      retakeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.retakeAssessment();
       });
     }
 
     const submitQuizBtn = document.getElementById('submitQuizBtn');
     if (submitQuizBtn) {
-      submitQuizBtn.addEventListener('click', () => this.submitQuiz());
+      submitQuizBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.submitQuiz();
+      });
+    }
+  },
+
+  onViewActivated() {
+    const introCard = document.getElementById('quizIntroCard');
+    const activeBox = document.getElementById('quizActiveBox');
+    const resultBox = document.getElementById('quizResultBox');
+
+    if (this.currentQuiz && this.secondsLeft > 0 && !this.quizCompleted) {
+      if (introCard) introCard.style.display = 'none';
+      if (resultBox) resultBox.style.display = 'none';
+      if (activeBox) activeBox.style.display = 'block';
+    } else if (this.quizCompleted && this.lastResult) {
+      if (introCard) introCard.style.display = 'none';
+      if (activeBox) activeBox.style.display = 'none';
+      if (resultBox) resultBox.style.display = 'block';
+    } else {
+      if (introCard) introCard.style.display = 'block';
+      if (activeBox) activeBox.style.display = 'none';
+      if (resultBox) resultBox.style.display = 'none';
     }
   },
 
@@ -84,9 +114,19 @@ const QuizManager = {
   },
 
   async startAssessment(targetSkills = []) {
+    if (this.isLoading) return;
+    this.isLoading = true;
+
+    // Reset any existing timer interval
+    this.stopTimer();
+
+    const introBtn = document.getElementById('startQuizFromIntroBtn');
+    const genBtn = document.getElementById('startNewQuizBtn');
+    if (introBtn) { introBtn.disabled = true; introBtn.textContent = '⏳ Loading Quiz...'; }
+    if (genBtn) { genBtn.disabled = true; genBtn.textContent = '⏳ Generating...'; }
+
     try {
       showToast('Generating AI skill assessment questions...', 'info');
-      window.App.navigateTo('quiz');
 
       if (!targetSkills || targetSkills.length === 0) {
         targetSkills = this.getTargetSkills();
@@ -102,17 +142,36 @@ const QuizManager = {
 
       this.currentQuiz = res;
       this.userAnswers = {};
+      this.quizCompleted = false;
+      this.lastResult = null;
+
+      if (window.App && window.App.activeView !== 'quiz') {
+        window.App.navigateTo('quiz');
+      }
 
       this.renderQuiz(res);
       this.startTimer(300); // 5 minutes
-      showToast('Quiz started! 5 questions loaded.', 'success');
+      showToast('Quiz loaded! 5 targeted questions ready.', 'success');
     } catch (err) {
       showToast('Failed to start quiz: ' + err.message, 'error');
+    } finally {
+      this.isLoading = false;
+      if (introBtn) { introBtn.disabled = false; introBtn.textContent = '🚀 Start 5-Minute Assessment'; }
+      if (genBtn) { genBtn.disabled = false; genBtn.textContent = '⚡ Generate New Quiz'; }
     }
   },
 
+  retakeAssessment() {
+    this.stopTimer();
+    this.currentQuiz = null;
+    this.userAnswers = {};
+    this.quizCompleted = false;
+    this.lastResult = null;
+    this.startAssessment();
+  },
+
   startTimer(seconds) {
-    clearInterval(this.timerInterval);
+    this.stopTimer();
     this.secondsLeft = seconds;
     this.updateTimerDisplay();
 
@@ -120,20 +179,28 @@ const QuizManager = {
       this.secondsLeft--;
       this.updateTimerDisplay();
       if (this.secondsLeft <= 0) {
-        clearInterval(this.timerInterval);
+        this.stopTimer();
         showToast('Time is up! Submitting answers automatically...', 'warning');
         this.submitQuiz(true);
       }
     }, 1000);
   },
 
+  stopTimer() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  },
+
   updateTimerDisplay() {
     const timerLabel = document.getElementById('quizTimerDisplay');
     if (!timerLabel) return;
-    const mins = Math.floor(this.secondsLeft / 60);
-    const secs = this.secondsLeft % 60;
+    const safeSecs = Math.max(0, this.secondsLeft);
+    const mins = Math.floor(safeSecs / 60);
+    const secs = safeSecs % 60;
     timerLabel.textContent = `⏱ ${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    if (this.secondsLeft < 60) {
+    if (safeSecs < 60) {
       timerLabel.style.color = '#ef4444';
     } else {
       timerLabel.style.color = '#10b981';
@@ -141,7 +208,7 @@ const QuizManager = {
   },
 
   updateAnsweredCounter() {
-    const total = this.currentQuiz ? this.currentQuiz.totalQuestions : 5;
+    const total = this.currentQuiz ? (this.currentQuiz.questions ? this.currentQuiz.questions.length : (this.currentQuiz.totalQuestions || 5)) : 5;
     const count = Object.keys(this.userAnswers).length;
     const badge = document.getElementById('quizTotalCountBadge');
     if (badge) {
@@ -149,6 +216,9 @@ const QuizManager = {
       if (count === total) {
         badge.style.background = '#dcfce7';
         badge.style.color = '#15803d';
+      } else {
+        badge.style.background = '#f1f5f9';
+        badge.style.color = '#475569';
       }
     }
   },
@@ -167,50 +237,57 @@ const QuizManager = {
       ? quiz.skillsTested.join(', ')
       : 'Core Technical Stack';
 
-    document.getElementById('quizTestedSkillsBadge').textContent = `Target Skills: ${skillsLabel}`;
+    const skillsBadge = document.getElementById('quizTestedSkillsBadge');
+    if (skillsBadge) skillsBadge.textContent = `Target Skills: ${skillsLabel}`;
+
     this.updateAnsweredCounter();
 
+    if (!container) return;
     container.innerHTML = '';
 
-    quiz.questions.forEach((q, idx) => {
+    const questions = quiz.questions || [];
+    questions.forEach((q, idx) => {
       const qCard = document.createElement('div');
       qCard.className = 'card';
       qCard.style.marginBottom = '1.25rem';
       qCard.id = `quiz-card-${q.id}`;
 
       const optionsHtml = q.options.map((opt, optIdx) => `
-        <label class="quiz-option-label" style="display:flex; align-items:center; gap:0.75rem; padding:0.85rem 1.1rem; border:1px solid #e2e8f0; border-radius:12px; margin-bottom:0.6rem; cursor:pointer; transition:all 0.2s; background:#ffffff;">
-          <input type="radio" name="question_${q.id}" value="${optIdx}" style="width:18px; height:18px; accent-color:var(--primary);">
-          <span style="font-size:0.95rem; font-weight:500;">${escapeHtml(opt)}</span>
+        <label class="quiz-option-label" data-qid="${q.id}" data-val="${optIdx}" style="display:flex; align-items:center; gap:0.75rem; padding:0.85rem 1.1rem; border:1.5px solid #e2e8f0; border-radius:12px; margin-bottom:0.6rem; cursor:pointer; transition:all 0.15s ease; background:#ffffff;">
+          <input type="radio" name="question_${q.id}" value="${optIdx}" style="width:18px; height:18px; accent-color:var(--primary); cursor:pointer;">
+          <span style="font-size:0.95rem; font-weight:500; color:#1e293b; user-select:none;">${escapeHtml(opt)}</span>
         </label>
       `).join('');
 
       qCard.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
-          <span class="badge badge-tech">Question ${idx + 1} of ${quiz.totalQuestions}</span>
-          <span class="badge" style="background:#e0e7ff; color:#3730a3;">Skill: ${escapeHtml(q.skill)}</span>
+          <span class="badge badge-tech">Question ${idx + 1} of ${questions.length}</span>
+          <span class="badge" style="background:#e0e7ff; color:#3730a3; font-weight:600;">Skill: ${escapeHtml(q.skill)}</span>
         </div>
-        <h3 style="font-size:1.1rem; font-weight:700; color:var(--dark-bg); margin-bottom:1rem; line-height:1.4;">${escapeHtml(q.question)}</h3>
+        <h3 style="font-size:1.08rem; font-weight:700; color:var(--dark-bg); margin-bottom:1rem; line-height:1.4;">${escapeHtml(q.question)}</h3>
         <div class="options-group">${optionsHtml}</div>
       `;
 
       // Option selection handling with active visual styling
-      qCard.querySelectorAll('input[type="radio"]').forEach(radio => {
-        radio.addEventListener('change', (e) => {
-          this.userAnswers[q.id] = parseInt(e.target.value, 10);
-          
-          qCard.querySelectorAll('.quiz-option-label').forEach(lbl => {
-            lbl.style.borderColor = '#e2e8f0';
-            lbl.style.background = '#ffffff';
-            lbl.style.boxShadow = 'none';
+      const labels = qCard.querySelectorAll('.quiz-option-label');
+      labels.forEach(lbl => {
+        lbl.addEventListener('click', (e) => {
+          const radio = lbl.querySelector('input[type="radio"]');
+          if (radio) {
+            radio.checked = true;
+          }
+          const chosenVal = parseInt(lbl.getAttribute('data-val'), 10);
+          this.userAnswers[q.id] = chosenVal;
+
+          labels.forEach(l => {
+            l.style.borderColor = '#e2e8f0';
+            l.style.background = '#ffffff';
+            l.style.boxShadow = 'none';
           });
 
-          const chosenLabel = e.target.closest('.quiz-option-label');
-          if (chosenLabel) {
-            chosenLabel.style.borderColor = 'var(--primary)';
-            chosenLabel.style.background = 'var(--primary-light)';
-            chosenLabel.style.boxShadow = '0 0 0 2px rgba(79, 70, 229, 0.2)';
-          }
+          lbl.style.borderColor = 'var(--primary)';
+          lbl.style.background = 'var(--primary-light)';
+          lbl.style.boxShadow = '0 0 0 2px rgba(79, 70, 229, 0.2)';
 
           this.updateAnsweredCounter();
         });
@@ -218,15 +295,12 @@ const QuizManager = {
 
       container.appendChild(qCard);
     });
-
-    activeBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
   },
 
   async submitQuiz(autoTimeout = false) {
-    if (!this.currentQuiz) return;
-    clearInterval(this.timerInterval);
+    if (!this.currentQuiz || this.isSubmitting) return;
 
-    const totalQ = this.currentQuiz.questions.length;
+    const totalQ = this.currentQuiz.questions ? this.currentQuiz.questions.length : 5;
     const answeredCount = Object.keys(this.userAnswers).length;
 
     if (!autoTimeout && answeredCount < totalQ) {
@@ -234,8 +308,17 @@ const QuizManager = {
       if (!confirmSubmit) return;
     }
 
-    // Format all answers (including unselected)
-    const answers = this.currentQuiz.questions.map(q => ({
+    this.stopTimer();
+    this.isSubmitting = true;
+
+    const submitBtn = document.getElementById('submitQuizBtn');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = '⏳ Evaluating Answers...';
+    }
+
+    // Format all answers
+    const answers = (this.currentQuiz.questions || []).map(q => ({
       questionId: q.id,
       selectedOption: this.userAnswers[q.id] !== undefined ? this.userAnswers[q.id] : null
     }));
@@ -252,15 +335,23 @@ const QuizManager = {
         result = this.evaluateClientQuiz(answers, this.currentQuiz._solutions);
       }
 
+      this.quizCompleted = true;
+      this.lastResult = result;
       this.renderResults(result);
       showToast(`Quiz complete! Accuracy: ${result.accuracyPercentage}%`, 'success');
-      
-      // Update dashboard
+
+      // Update progress dashboard in background
       if (window.ProgressManager) {
         window.ProgressManager.loadDashboardData();
       }
     } catch (err) {
       showToast('Evaluation error: ' + err.message, 'error');
+    } finally {
+      this.isSubmitting = false;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Answers & Check Performance ➔';
+      }
     }
   },
 
@@ -271,25 +362,30 @@ const QuizManager = {
     if (activeBox) activeBox.style.display = 'none';
     if (resultBox) resultBox.style.display = 'block';
 
-    document.getElementById('quizResultAccuracy').textContent = `${result.accuracyPercentage}%`;
-    document.getElementById('quizResultSummary').textContent = `${result.correctCount} out of ${result.totalQuestions} questions correct`;
-    document.getElementById('quizResultFeedback').textContent = result.feedback;
+    const accEl = document.getElementById('quizResultAccuracy');
+    if (accEl) accEl.textContent = `${result.accuracyPercentage}%`;
+
+    const sumEl = document.getElementById('quizResultSummary');
+    if (sumEl) sumEl.textContent = `${result.correctCount} out of ${result.totalQuestions} questions correct`;
+
+    const feedEl = document.getElementById('quizResultFeedback');
+    if (feedEl) feedEl.textContent = result.feedback;
 
     const breakdownContainer = document.getElementById('quizDetailedBreakdown');
     if (!breakdownContainer) return;
 
     breakdownContainer.innerHTML = '';
-    result.results.forEach((r, idx) => {
+    (result.results || []).forEach((r, idx) => {
       const item = document.createElement('div');
       item.style.padding = '1.1rem';
       item.style.borderRadius = '12px';
       item.style.marginBottom = '0.85rem';
-      item.style.border = r.isCorrect ? '1px solid #10b981' : '1px solid #ef4444';
+      item.style.border = r.isCorrect ? '1.5px solid #10b981' : '1.5px solid #ef4444';
       item.style.background = r.isCorrect ? '#ecfdf5' : '#fef2f2';
 
       item.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-          <div style="font-weight:700; font-size:1rem; color:${r.isCorrect ? '#065f46' : '#991b1b'};">
+          <div style="font-weight:700; font-size:0.98rem; color:${r.isCorrect ? '#065f46' : '#991b1b'};">
             ${r.isCorrect ? '✅ Correct' : '❌ ' + (r.userAnswer === null ? 'Unanswered' : 'Incorrect')} — Question #${idx + 1}
           </div>
         </div>
@@ -301,7 +397,7 @@ const QuizManager = {
       breakdownContainer.appendChild(item);
     });
 
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
   },
 
   // Client-side fallback quiz generator

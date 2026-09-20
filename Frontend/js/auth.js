@@ -228,23 +228,18 @@ const Auth = {
     const adminBrandBadge = document.getElementById('adminBrandBadge');
     const navBrandSubtitle = document.getElementById('navBrandSubtitle');
 
-    const adminActive = this.isAdmin();
+    const onAdminPage = window.App && window.App.activeView === 'admin';
 
-    if (adminActive) {
+    if (onAdminPage) {
       if (studentNav) studentNav.style.display = 'none';
       if (adminNav) adminNav.style.display = 'flex';
       if (adminBrandBadge) adminBrandBadge.style.display = 'inline-block';
       if (navBrandSubtitle) navBrandSubtitle.textContent = 'Administrator Management Console';
     } else {
-      if (window.App && window.App.activeView === 'admin') {
-        if (studentNav) studentNav.style.display = 'none';
-        if (adminNav) adminNav.style.display = 'flex';
-      } else {
-        if (studentNav) studentNav.style.display = 'flex';
-        if (adminNav) adminNav.style.display = 'none';
-        if (adminBrandBadge) adminBrandBadge.style.display = 'none';
-        if (navBrandSubtitle) navBrandSubtitle.textContent = 'Skill Gap & Readiness Platform';
-      }
+      if (studentNav) studentNav.style.display = 'flex';
+      if (adminNav) adminNav.style.display = 'none';
+      if (adminBrandBadge) adminBrandBadge.style.display = 'none';
+      if (navBrandSubtitle) navBrandSubtitle.textContent = 'Skill Gap & Readiness Platform';
     }
 
     if (this.currentUser) {

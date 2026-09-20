@@ -40,10 +40,10 @@ const App = {
 
     // Check hash route or default to home/admin
     const hash = window.location.hash.replace('#', '');
-    if (window.Auth && window.Auth.isAdmin()) {
-      this.navigateTo('admin');
-    } else if (hash) {
+    if (hash) {
       this.navigateTo(hash);
+    } else if (window.Auth && window.Auth.isAdmin()) {
+      this.navigateTo('admin');
     } else {
       this.navigateTo('home');
     }
@@ -53,19 +53,13 @@ const App = {
     document.querySelectorAll('[data-navigate]').forEach(elem => {
       elem.addEventListener('click', (e) => {
         e.preventDefault();
-        let targetView = elem.getAttribute('data-navigate');
-        if (window.Auth && window.Auth.isAdmin()) {
-          targetView = 'admin';
-        }
+        const targetView = elem.getAttribute('data-navigate');
         this.navigateTo(targetView);
       });
     });
 
     window.addEventListener('hashchange', () => {
-      let hash = window.location.hash.replace('#', '');
-      if (window.Auth && window.Auth.isAdmin()) {
-        hash = 'admin';
-      }
+      const hash = window.location.hash.replace('#', '');
       if (hash && hash !== this.activeView) {
         this.navigateTo(hash, false);
       }
@@ -75,22 +69,13 @@ const App = {
   navigateTo(viewId, updateHash = true) {
     const isAdmin = window.Auth && window.Auth.isAdmin();
 
-    // Enforce strict role isolation
-    if (isAdmin) {
-      if (viewId !== 'admin') {
-        if (window.showToast) {
-          window.showToast('🛡️ Admin Mode: Candidate upload features are disabled in Administrator view.', 'info');
-        }
-        viewId = 'admin';
+    // Guard: Require admin credentials only when attempting to view Admin Portal
+    if (viewId === 'admin' && !isAdmin) {
+      if (window.showToast) {
+        window.showToast('🔐 Please log in with Administrator credentials to view the Admin Console.', 'info');
       }
-    } else {
-      if (viewId === 'admin') {
-        if (window.showToast) {
-          window.showToast('🔐 Please log in with Administrator credentials to view the Admin Console.', 'info');
-        }
-        if (window.Auth) window.Auth.toggleAuthTab('admin');
-        viewId = 'auth';
-      }
+      if (window.Auth) window.Auth.toggleAuthTab('admin');
+      viewId = 'auth';
     }
 
     const target = document.getElementById(`view-${viewId}`);
@@ -102,7 +87,7 @@ const App = {
     const adminBrandBadge = document.getElementById('adminBrandBadge');
     const navBrandSubtitle = document.getElementById('navBrandSubtitle');
 
-    if (isAdmin || viewId === 'admin') {
+    if (viewId === 'admin') {
       if (studentNav) studentNav.style.display = 'none';
       if (adminNav) adminNav.style.display = 'flex';
       if (adminBrandBadge) adminBrandBadge.style.display = 'inline-block';
@@ -135,13 +120,15 @@ const App = {
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Trigger view-specific refreshes
+    // Trigger view-specific activations
     if (viewId === 'progress' || viewId === 'dashboard') {
-      window.ProgressManager.loadDashboardData();
+      if (window.ProgressManager) {
+        window.ProgressManager.loadDashboardData();
+      }
     }
     if (viewId === 'quiz') {
-      if (!window.QuizManager.currentQuiz) {
-        window.QuizManager.startAssessment();
+      if (window.QuizManager && window.QuizManager.onViewActivated) {
+        window.QuizManager.onViewActivated();
       }
     }
     if (viewId === 'admin') {
