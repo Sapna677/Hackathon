@@ -38,11 +38,12 @@
 
     <!-- Dedicated Admin Navigation Links (Active only on Admin Portal) -->
     <ul id="adminNavLinks" class="nav-links" style="display: none;">
-      <li class="nav-item active" data-navigate="admin">📊 Overview &amp; KPIs</li>
-      <li class="nav-item" data-admin-scroll="directory">👥 Student Directory</li>
-      <li class="nav-item" data-admin-scroll="gaps">⚠️ Student Skill Gaps</li>
-      <li class="nav-item" data-admin-scroll="skills">🌟 Top Verified Skills</li>
-      <li class="nav-item" id="adminNavRefresh" style="color: #4f46e5; font-weight: 700; cursor: pointer;">🔄 Refresh Live Data</li>
+      <li class="nav-item" data-admin-tab="home">🏠 Admin Home</li>
+      <li class="nav-item active" data-admin-tab="all">📊 Console &amp; KPIs</li>
+      <li class="nav-item" data-admin-tab="directory">👥 Student Directory</li>
+      <li class="nav-item" data-admin-tab="gaps">⚠️ Student Skill Gaps</li>
+      <li class="nav-item" data-admin-tab="skills">🌟 Top Verified Skills</li>
+      <li class="nav-item" id="adminNavRefresh" style="color: #4f46e5; font-weight: 700; cursor: pointer;">🔄 Refresh Data</li>
       <li class="nav-item" data-navigate="dashboard" style="color: #0284c7; font-weight: 700; background: #f0f9ff; border: 1px solid #bae6fd;">👁️ Candidate View</li>
     </ul>
 
@@ -69,106 +70,279 @@
   <!-- 1. HOME VIEW (Landing Page)                                               -->
   <!-- ========================================================================= -->
   <div id="view-home" class="view-container active">
-    <!-- Hero Banner -->
-    <div style="text-align: center; padding: 3rem 1rem 2.5rem; max-width: 900px; margin: 0 auto;">
-      <div class="badge" style="background: var(--primary-light); color: var(--primary); margin-bottom: 1rem; padding: 0.4rem 1rem; font-size: 0.85rem;">
-        ✨ From Your Resume ➔ To Your Dream Job ➔ With AI Guidance
-      </div>
-      <h1 style="font-size: 2.75rem; font-weight: 800; line-height: 1.2; color: var(--dark-bg); margin-bottom: 1.25rem;">
-        AI-Powered Career Readiness &amp; <span style="background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Skill Gap Platform</span>
-      </h1>
-      <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 720px; margin: 0 auto 2rem;">
-        Stop guessing what skills you are missing. Upload your resume, match it with target job descriptions, receive a personalized week-by-week learning roadmap, and test yourself with AI-generated quizzes.
-      </p>
-      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-        <button class="btn btn-primary" style="padding: 0.85rem 1.8rem; font-size: 1rem;" data-navigate="resume">
-          🚀 Get Started - Upload Resume
-        </button>
-        <button id="demoLoginInlineBtn" class="btn btn-demo" style="padding: 0.85rem 1.5rem; font-size: 1rem;">
-          ⚡ Instant Demo Showcase
-        </button>
-      </div>
-    </div>
-
-    <!-- Section 1 & 2: Problem, Solution & Target Users -->
-    <div class="grid-2" style="margin-top: 1rem;">
-      <div class="card" style="border-left: 5px solid var(--danger);">
-        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-          <span style="font-size: 1.75rem;">🎯</span>
-          <h2 style="font-size: 1.3rem; font-weight: 700;">1. The Problem</h2>
+    <!-- Student / Candidate Home Layout -->
+    <div id="studentHomeContent">
+      <!-- Hero Banner -->
+      <div style="text-align: center; padding: 3rem 1rem 2.5rem; max-width: 900px; margin: 0 auto;">
+        <div class="badge" style="background: var(--primary-light); color: var(--primary); margin-bottom: 1rem; padding: 0.4rem 1rem; font-size: 0.85rem;">
+          ✨ From Your Resume ➔ To Your Dream Job ➔ With AI Guidance
         </div>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
-          Students and freshers don't know what exact skills they are missing for a specific job role. They waste countless hours on random, disorganized tutorials without a structured path.
+        <h1 style="font-size: 2.75rem; font-weight: 800; line-height: 1.2; color: var(--dark-bg); margin-bottom: 1.25rem;">
+          AI-Powered Career Readiness &amp; <span style="background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Skill Gap Platform</span>
+        </h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 720px; margin: 0 auto 2rem;">
+          Stop guessing what skills you are missing. Upload your resume, match it with target job descriptions, receive a personalized week-by-week learning roadmap, and test yourself with AI-generated quizzes.
         </p>
-        <div style="background: var(--danger-light); padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; color: #b91c1c; font-weight: 600;">
-          ❌ Unstructured learning • Unclear job requirements • Low interview conversion
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <button class="btn btn-primary" style="padding: 0.85rem 1.8rem; font-size: 1rem;" data-navigate="resume">
+            🚀 Get Started - Upload Resume
+          </button>
+          <button id="demoLoginInlineBtn" class="btn btn-demo" style="padding: 0.85rem 1.5rem; font-size: 1rem;">
+            ⚡ Instant Demo Showcase
+          </button>
         </div>
       </div>
 
-      <div class="card" style="border-left: 5px solid var(--success);">
-        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-          <span style="font-size: 1.75rem;">💡</span>
-          <h2 style="font-size: 1.3rem; font-weight: 700;">The AI Solution</h2>
+      <!-- Section 1 & 2: Problem, Solution & Target Users -->
+      <div class="grid-2" style="margin-top: 1rem;">
+        <div class="card" style="border-left: 5px solid var(--danger);">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+            <span style="font-size: 1.75rem;">🎯</span>
+            <h2 style="font-size: 1.3rem; font-weight: 700;">1. The Problem</h2>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+            Students and freshers don't know what exact skills they are missing for a specific job role. They waste countless hours on random, disorganized tutorials without a structured path.
+          </p>
+          <div style="background: var(--danger-light); padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; color: #b91c1c; font-weight: 600;">
+            ❌ Unstructured learning • Unclear job requirements • Low interview conversion
+          </div>
         </div>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
-          An all-in-one AI platform that automatically parses your resume + job description, identifies precise skill gaps, creates a personalized week-by-week roadmap, and tracks your readiness with AI quizzes.
-        </p>
-        <div style="background: var(--success-light); padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; color: #047857; font-weight: 600;">
-          ✔ Matched / Missing / Weak Analysis • Curated Pathways • Real-time Progress
+
+        <div class="card" style="border-left: 5px solid var(--success);">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+            <span style="font-size: 1.75rem;">💡</span>
+            <h2 style="font-size: 1.3rem; font-weight: 700;">The AI Solution</h2>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+            An all-in-one AI platform that automatically parses your resume + job description, identifies precise skill gaps, creates a personalized week-by-week roadmap, and tracks your readiness with AI quizzes.
+          </p>
+          <div style="background: var(--success-light); padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; color: #047857; font-weight: 600;">
+            ✔ Matched / Missing / Weak Analysis • Curated Pathways • Real-time Progress
+          </div>
+        </div>
+      </div>
+
+      <!-- Target Users Grid -->
+      <div class="card" style="margin-top: 0.5rem;">
+        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.25rem; text-align: center;">
+          👥 Designed Specially For:
+        </h3>
+        <div class="grid-4">
+          <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🎓</div>
+            <h4 style="font-size: 1rem; font-weight: 700;">College Students</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Prepare semester projects tailored to industry tech stacks.</p>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">💼</div>
+            <h4 style="font-size: 1rem; font-weight: 700;">Freshers</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Bridge the gap between campus syllabus and company expectations.</p>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🔍</div>
+            <h4 style="font-size: 1rem; font-weight: 700;">Job Seekers</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Target dream roles by fixing missing qualifications.</p>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🚀</div>
+            <h4 style="font-size: 1rem; font-weight: 700;">Internship Seekers</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Accelerate hiring readiness from 8 weeks to 4 weeks.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Success Metrics Banner -->
+      <div class="card" style="background: linear-gradient(135deg, #1e1b4b, #312e81); color: white; margin-top: 1rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; letter-spacing: 0.5px;">
+          🌟 Proven Impact &amp; Success Metrics
+        </h3>
+        <div class="grid-4" style="text-align: center;">
+          <div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #34d399;">60%</div>
+            <div style="font-size: 0.85rem; opacity: 0.85;">Skill Gap Reduction</div>
+          </div>
+          <div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #60a5fa;">48% ➔ 78%</div>
+            <div style="font-size: 0.85rem; opacity: 0.85;">Quiz Accuracy Improvement</div>
+          </div>
+          <div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #fbbf24;">8w ➔ 4w</div>
+            <div style="font-size: 0.85rem; opacity: 0.85;">Time to Job Readiness</div>
+          </div>
+          <div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #f472b6;">94%</div>
+            <div style="font-size: 0.85rem; opacity: 0.85;">User Engagement &amp; Retention</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Target Users Grid -->
-    <div class="card" style="margin-top: 0.5rem;">
-      <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.25rem; text-align: center;">
-        👥 Designed Specially For:
-      </h3>
-      <div class="grid-4">
-        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
-          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🎓</div>
-          <h4 style="font-size: 1rem; font-weight: 700;">College Students</h4>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Prepare semester projects tailored to industry tech stacks.</p>
-        </div>
-        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
-          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">💼</div>
-          <h4 style="font-size: 1rem; font-weight: 700;">Freshers</h4>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Bridge the gap between campus syllabus and company expectations.</p>
-        </div>
-        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
-          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🔍</div>
-          <h4 style="font-size: 1rem; font-weight: 700;">Job Seekers</h4>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Target dream roles by fixing missing qualifications.</p>
-        </div>
-        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
-          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🚀</div>
-          <h4 style="font-size: 1rem; font-weight: 700;">Internship Seekers</h4>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Accelerate hiring readiness from 8 weeks to 4 weeks.</p>
+    <!-- ========================================================================= -->
+    <!-- DEDICATED ADMIN EXECUTIVE COMMAND CENTER HOME PAGE                        -->
+    <!-- ========================================================================= -->
+    <div id="adminHomeContent" style="display: none;">
+      <!-- Admin Hero Command Center -->
+      <div style="background: linear-gradient(135deg, #0f172a, #1e1b4b, #312e81); color: white; padding: 2.75rem 2rem; border-radius: 20px; margin-bottom: 2rem; box-shadow: 0 10px 25px -5px rgba(30, 27, 75, 0.4); position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <div style="position: absolute; right: -20px; bottom: -20px; font-size: 10rem; opacity: 0.05; user-select: none;">🛡️</div>
+        <div style="max-width: 780px; position: relative; z-index: 1;">
+          <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.12); padding: 0.35rem 0.9rem; border-radius: 9999px; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <span>🛡️</span> SYSTEM ADMINISTRATOR COMMAND CENTER
+          </div>
+          <h1 style="font-size: 2.35rem; font-weight: 800; line-height: 1.25; margin-bottom: 1rem; color: #ffffff;">
+            Welcome, <span style="background: linear-gradient(135deg, #a5b4fc, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">System Administrator</span> 👋
+          </h1>
+          <p style="font-size: 1.05rem; opacity: 0.88; line-height: 1.6; margin-bottom: 1.75rem;">
+            Real-time platform governance, candidate readiness monitoring, and institution-wide skill gap intelligence across all enrolled learners.
+          </p>
+          <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+            <button class="btn btn-primary" style="background: linear-gradient(135deg, #4f46e5, #6366f1); border: none; padding: 0.75rem 1.6rem; font-size: 0.95rem; font-weight: 700; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);" data-admin-tab="all">
+              📊 Open Executive Console
+            </button>
+            <button class="btn btn-secondary" style="background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255, 255, 255, 0.25); padding: 0.75rem 1.4rem; font-size: 0.95rem; font-weight: 700;" data-admin-tab="directory">
+              👥 Student Directory
+            </button>
+            <button class="btn btn-secondary" style="background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255, 255, 255, 0.25); padding: 0.75rem 1.4rem; font-size: 0.95rem; font-weight: 700;" data-admin-tab="gaps">
+              ⚠️ Student Skill Gaps
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Section 5: Success Metrics Banner -->
-    <div class="card" style="background: linear-gradient(135deg, #1e1b4b, #312e81); color: white; margin-top: 1rem;">
-      <h3 style="font-size: 1.15rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; letter-spacing: 0.5px;">
-        🌟 Proven Impact &amp; Success Metrics
-      </h3>
-      <div class="grid-4" style="text-align: center;">
-        <div>
-          <div style="font-size: 2.2rem; font-weight: 800; color: #34d399;">60%</div>
-          <div style="font-size: 0.85rem; opacity: 0.85;">Skill Gap Reduction</div>
+      <!-- Quick Platform Vitals Grid (4 KPI Cards) -->
+      <div class="grid-4" style="margin-bottom: 1.75rem;">
+        <div class="card" style="padding: 1.35rem; border-top: 4px solid var(--primary); box-shadow: 0 4px 14px rgba(79, 70, 229, 0.08); border-radius: 14px; background: white;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Learners Enrolled</span>
+            <span style="font-size: 1.4rem;">👥</span>
+          </div>
+          <div id="adminHomeTotalUsers" style="font-size: 2.2rem; font-weight: 800; color: var(--primary); margin: 0.4rem 0;">0</div>
+          <div style="font-size: 0.8rem; color: #10b981; font-weight: 600;">✔ Active candidate profiles</div>
         </div>
-        <div>
-          <div style="font-size: 2.2rem; font-weight: 800; color: #60a5fa;">48% ➔ 78%</div>
-          <div style="font-size: 0.85rem; opacity: 0.85;">Quiz Accuracy Improvement</div>
+
+        <div class="card" style="padding: 1.35rem; border-top: 4px solid #059669; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.08); border-radius: 14px; background: white;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Average Readiness</span>
+            <span style="font-size: 1.4rem;">⚡</span>
+          </div>
+          <div id="adminHomeAvgReadiness" style="font-size: 2.2rem; font-weight: 800; color: #059669; margin: 0.4rem 0;">0%</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Across all target job roles</div>
         </div>
-        <div>
-          <div style="font-size: 2.2rem; font-weight: 800; color: #fbbf24;">8w ➔ 4w</div>
-          <div style="font-size: 0.85rem; opacity: 0.85;">Time to Job Readiness</div>
+
+        <div class="card" style="padding: 1.35rem; border-top: 4px solid #2563eb; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08); border-radius: 14px; background: white;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">AI Quizzes Taken</span>
+            <span style="font-size: 1.4rem;">📝</span>
+          </div>
+          <div id="adminHomeTotalQuizzes" style="font-size: 2.2rem; font-weight: 800; color: #2563eb; margin: 0.4rem 0;">0</div>
+          <div style="font-size: 0.8rem; color: #2563eb; font-weight: 600;">Evaluated with AI scoring</div>
         </div>
-        <div>
-          <div style="font-size: 2.2rem; font-weight: 800; color: #f472b6;">94%</div>
-          <div style="font-size: 0.85rem; opacity: 0.85;">User Engagement &amp; Retention</div>
+
+        <div class="card" style="padding: 1.35rem; border-top: 4px solid #7c3aed; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.08); border-radius: 14px; background: white;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Roadmap Pathways</span>
+            <span style="font-size: 1.4rem;">🎯</span>
+          </div>
+          <div id="adminHomeTotalRoadmaps" style="font-size: 2.2rem; font-weight: 800; color: #7c3aed; margin: 0.4rem 0;">0</div>
+          <div style="font-size: 0.8rem; color: #7c3aed; font-weight: 600;">Active 4-week pathways</div>
+        </div>
+      </div>
+
+      <!-- Live Infrastructure & System Health Strip -->
+      <div class="card" style="margin-bottom: 1.75rem; padding: 1.1rem 1.5rem; background: #ffffff; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: inline-block; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);"></span>
+            <span style="font-weight: 700; font-size: 0.92rem; color: #1e293b;">System Status: All Services Operational</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; align-items: center; font-size: 0.85rem; color: var(--text-muted); flex-wrap: wrap;">
+            <span>🚀 <strong>API Engine:</strong> Node.js :5000</span>
+            <span>💾 <strong>Database:</strong> JSON DB Connected</span>
+            <span>⚡ <strong>Response Time:</strong> ~15ms</span>
+            <span>🔒 <strong>Auth Mode:</strong> Admin JWT Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Management Quick Action Modules (3 Cards) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 1.75rem;">
+        <!-- Card 1 -->
+        <div class="card" style="padding: 1.5rem; border-radius: 14px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; background: white;">
+          <div>
+            <div style="font-size: 2rem; margin-bottom: 0.75rem;">👥</div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem;">Student Directory &amp; Progress</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+              Search, filter, and inspect detailed profiles for all learners. Review resume extractions, match percentages, and milestone completion.
+            </p>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="width: 100%; font-weight: 700; color: var(--primary); border-color: #c7d2fe;" data-admin-tab="directory">
+            Open Student Directory ➔
+          </button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card" style="padding: 1.5rem; border-radius: 14px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; background: white;">
+          <div>
+            <div style="font-size: 2rem; margin-bottom: 0.75rem;">⚠️</div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem;">Institutional Skill Gaps</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+              Identify cohort-wide missing technical skills (Express.js, Responsive Design, Docker) to organize targeted workshops and technical training.
+            </p>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="width: 100%; font-weight: 700; color: #b91c1c; border-color: #fecaca;" data-admin-tab="gaps">
+            Inspect Skill Gaps ➔
+          </button>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card" style="padding: 1.5rem; border-radius: 14px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; background: white;">
+          <div>
+            <div style="font-size: 2rem; margin-bottom: 0.75rem;">🧪</div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem;">Candidate Experience Sandbox</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+              Test drive the candidate perspective: try resume parsing, explore job description matching, or test adaptive AI technical quizzes.
+            </p>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="width: 100%; font-weight: 700; color: #0284c7; border-color: #bae6fd;" data-navigate="dashboard">
+            Launch Candidate View ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Platform Activity Feed -->
+      <div class="card" style="padding: 1.5rem; border-radius: 14px; background: white; border: 1px solid #e2e8f0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 0.5rem;">
+            <span>⚡</span> Recent Student Activity &amp; Milestones
+          </h3>
+          <span class="badge" style="background: #f1f5f9; color: #475569; font-weight: 600;">Real-Time Feed</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <div style="display: flex; align-items: center; gap: 0.85rem; padding: 0.75rem 1rem; background: #f8fafc; border-radius: 10px; border-left: 4px solid var(--success);">
+            <span style="font-size: 1.2rem;">📝</span>
+            <div style="flex: 1;">
+              <div style="font-size: 0.9rem; font-weight: 700; color: #1e293b;">Priya Sharma completed AI Technical Quiz</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Scored 80% on Express.js &amp; Responsive Design concepts</div>
+            </div>
+            <span class="badge badge-matched">Verified</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.85rem; padding: 0.75rem 1rem; background: #f8fafc; border-radius: 10px; border-left: 4px solid var(--primary);">
+            <span style="font-size: 1.2rem;">🎯</span>
+            <div style="flex: 1;">
+              <div style="font-size: 0.9rem; font-weight: 700; color: #1e293b;">Rahul Verma matched with 'Frontend Developer' JD</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Career readiness score calculated at 75% (4-week pathway active)</div>
+            </div>
+            <span class="badge" style="background: var(--primary-light); color: var(--primary);">Roadmap Active</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.85rem; padding: 0.75rem 1rem; background: #f8fafc; border-radius: 10px; border-left: 4px solid #7c3aed;">
+            <span style="font-size: 1.2rem;">📄</span>
+            <div style="flex: 1;">
+              <div style="font-size: 0.9rem; font-weight: 700; color: #1e293b;">Ananya Iyer uploaded technical resume</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Extracted skills: React, Node.js, JavaScript, HTML5, CSS3</div>
+            </div>
+            <span class="badge" style="background: #ede9fe; color: #7c3aed;">Parsed</span>
+          </div>
         </div>
       </div>
     </div>
@@ -825,8 +999,24 @@
       </div>
     </div>
 
+    <!-- Admin Portal View Selector Tabs -->
+    <div id="adminPortalTabs" style="display: flex; gap: 0.6rem; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; flex-wrap: wrap;">
+      <button class="btn btn-sm btn-primary admin-tab-btn active" data-admin-tab="all" style="font-weight: 700; border-radius: 8px;">
+        📊 Full Overview &amp; KPIs
+      </button>
+      <button class="btn btn-sm btn-secondary admin-tab-btn" data-admin-tab="directory" style="font-weight: 700; border-radius: 8px;">
+        👥 Student Directory (<span id="adminTabUserCount">5</span>)
+      </button>
+      <button class="btn btn-sm btn-secondary admin-tab-btn" data-admin-tab="gaps" style="font-weight: 700; border-radius: 8px;">
+        ⚠️ Student Skill Gaps
+      </button>
+      <button class="btn btn-sm btn-secondary admin-tab-btn" data-admin-tab="skills" style="font-weight: 700; border-radius: 8px;">
+        🌟 Top Verified Skills
+      </button>
+    </div>
+
     <!-- Top Metric Cards Grid -->
-    <div class="grid-4" style="margin-bottom: 1.5rem;">
+    <div id="adminSectionKpis" class="grid-4" style="margin-bottom: 1.5rem;">
       <!-- Total Learners -->
       <div class="card" style="padding: 1.35rem; border-top: 4px solid var(--primary); box-shadow: 0 4px 14px rgba(79, 70, 229, 0.08); border-radius: 14px; background: white;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -877,9 +1067,9 @@
     </div>
 
     <!-- Student Analytics & Category Breakdown Row -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+    <div id="adminSectionAnalytics" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
       <!-- Role Breakdown -->
-      <div class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
+      <div id="adminRoleBreakdownCard" class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
         <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b; display: flex; align-items: center; gap: 0.4rem;">
           <span>📊</span> User Distribution by Category
         </h3>
@@ -889,7 +1079,7 @@
       </div>
 
       <!-- Top Missing Skill Gaps in Students -->
-      <div class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
+      <div id="adminTopSkillGapsCard" class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
         <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b; display: flex; align-items: center; gap: 0.4rem;">
           <span>⚠️</span> Top Missing Skills (Student Gaps)
         </h3>
@@ -899,7 +1089,7 @@
       </div>
 
       <!-- Top In-Demand Skills Found -->
-      <div class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
+      <div id="adminTopDemandsCard" class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
         <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; color: #1e293b; display: flex; align-items: center; gap: 0.4rem;">
           <span>🌟</span> Top Verified Student Skills
         </h3>

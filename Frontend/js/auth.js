@@ -229,9 +229,9 @@ const Auth = {
     const navBrandSubtitle = document.getElementById('navBrandSubtitle');
 
     const adminActive = this.isAdmin();
-    const onAdminPage = window.App && window.App.activeView === 'admin';
+    const onAdminOrHome = window.App && (window.App.activeView === 'admin' || (window.App.activeView === 'home' && adminActive));
 
-    if (onAdminPage) {
+    if (onAdminOrHome) {
       if (studentNav) studentNav.style.display = 'none';
       if (adminNav) adminNav.style.display = 'flex';
       if (adminBrandBadge) adminBrandBadge.style.display = 'inline-block';
@@ -239,9 +239,11 @@ const Auth = {
     } else {
       if (studentNav) studentNav.style.display = 'flex';
       if (adminNav) adminNav.style.display = 'none';
-      if (adminBrandBadge) adminBrandBadge.style.display = 'none';
-      if (navBrandSubtitle) navBrandSubtitle.textContent = 'Skill Gap & Readiness Platform';
+      if (adminBrandBadge) adminBrandBadge.style.display = adminActive ? 'inline-block' : 'none';
+      if (navBrandSubtitle) navBrandSubtitle.textContent = adminActive ? 'Administrator (Candidate Sandbox)' : 'Skill Gap & Readiness Platform';
     }
+
+    this.updateHomeContent();
 
     if (this.currentUser) {
       if (userDisplay) userDisplay.style.display = 'flex';
@@ -272,6 +274,23 @@ const Auth = {
     } else {
       if (userDisplay) userDisplay.style.display = 'none';
       if (guestDisplay) guestDisplay.style.display = 'flex';
+    }
+  },
+
+  updateHomeContent() {
+    const studentHome = document.getElementById('studentHomeContent');
+    const adminHome = document.getElementById('adminHomeContent');
+    if (!studentHome || !adminHome) return;
+
+    if (this.isAdmin()) {
+      studentHome.style.display = 'none';
+      adminHome.style.display = 'block';
+      if (window.AdminManager && window.AdminManager.loadOverview) {
+        window.AdminManager.loadOverview();
+      }
+    } else {
+      studentHome.style.display = 'block';
+      adminHome.style.display = 'none';
     }
   }
 };

@@ -68,28 +68,21 @@ const AdminManager = {
       });
     }
 
-    // Admin Scroll Quick Navigation
+    // Admin Tab Navigation (Navbar + In-Page Tabs + Command Center Quick Actions)
+    document.querySelectorAll('[data-admin-tab]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tabKey = btn.getAttribute('data-admin-tab');
+        this.switchTab(tabKey);
+      });
+    });
+
+    // Fallback for any legacy data-admin-scroll elements
     document.querySelectorAll('[data-admin-scroll]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const target = btn.getAttribute('data-admin-scroll');
-        if (window.App && window.App.activeView !== 'admin') {
-          window.App.navigateTo('admin');
-        }
-
-        document.querySelectorAll('#adminNavLinks .nav-item').forEach(el => el.classList.remove('active'));
-        btn.classList.add('active');
-
-        if (target === 'directory') {
-          const el = document.getElementById('adminUsersTableBody') || document.getElementById('adminUserSearch');
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (target === 'gaps') {
-          const el = document.getElementById('adminTopSkillGaps');
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (target === 'skills') {
-          const el = document.getElementById('adminTopDemands');
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        this.switchTab(target === 'gaps' ? 'gaps' : (target === 'skills' ? 'skills' : 'directory'));
       });
     });
 
@@ -100,6 +93,92 @@ const AdminManager = {
         e.preventDefault();
         this.loadAllAdminData(true);
       });
+    }
+  },
+
+  switchTab(tabKey = 'all') {
+    if (tabKey === 'home') {
+      if (window.App) window.App.navigateTo('home');
+      document.querySelectorAll('#adminNavLinks .nav-item').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-admin-tab') === 'home');
+      });
+      return;
+    }
+
+    if (window.App && window.App.activeView !== 'admin') {
+      window.App.navigateTo('admin');
+    }
+
+    // Update in-page tab buttons
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      const match = btn.getAttribute('data-admin-tab') === tabKey;
+      btn.classList.toggle('active', match);
+      btn.classList.toggle('btn-primary', match);
+      btn.classList.toggle('btn-secondary', !match);
+    });
+
+    // Update Top Admin Navbar
+    document.querySelectorAll('#adminNavLinks .nav-item').forEach(el => {
+      const itemKey = el.getAttribute('data-admin-tab');
+      el.classList.toggle('active', itemKey === tabKey);
+    });
+
+    const kpisSec = document.getElementById('adminSectionKpis');
+    const analyticsSec = document.getElementById('adminSectionAnalytics');
+    const directoryCard = document.getElementById('adminDirectoryCard');
+    const gapsCard = document.getElementById('adminTopSkillGapsCard');
+    const demandsCard = document.getElementById('adminTopDemandsCard');
+    const rolesCard = document.getElementById('adminRoleBreakdownCard');
+
+    if (tabKey === 'directory') {
+      if (kpisSec) kpisSec.style.display = 'grid';
+      if (analyticsSec) analyticsSec.style.display = 'none';
+      if (directoryCard) {
+        directoryCard.style.display = 'block';
+        directoryCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const sInput = document.getElementById('adminUserSearch');
+        if (sInput) setTimeout(() => sInput.focus(), 150);
+      }
+    } else if (tabKey === 'gaps') {
+      if (kpisSec) kpisSec.style.display = 'grid';
+      if (analyticsSec) analyticsSec.style.display = 'grid';
+      if (directoryCard) directoryCard.style.display = 'none';
+      if (rolesCard) rolesCard.style.display = 'none';
+      if (demandsCard) demandsCard.style.display = 'none';
+      if (gapsCard) {
+        gapsCard.style.display = 'block';
+        gapsCard.style.gridColumn = '1 / -1';
+        gapsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else if (tabKey === 'skills') {
+      if (kpisSec) kpisSec.style.display = 'grid';
+      if (analyticsSec) analyticsSec.style.display = 'grid';
+      if (directoryCard) directoryCard.style.display = 'none';
+      if (rolesCard) rolesCard.style.display = 'none';
+      if (gapsCard) gapsCard.style.display = 'none';
+      if (demandsCard) {
+        demandsCard.style.display = 'block';
+        demandsCard.style.gridColumn = '1 / -1';
+        demandsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else {
+      // 'all' or default
+      if (kpisSec) kpisSec.style.display = 'grid';
+      if (analyticsSec) analyticsSec.style.display = 'grid';
+      if (directoryCard) directoryCard.style.display = 'block';
+      if (rolesCard) {
+        rolesCard.style.display = 'block';
+        rolesCard.style.gridColumn = '';
+      }
+      if (gapsCard) {
+        gapsCard.style.display = 'block';
+        gapsCard.style.gridColumn = '';
+      }
+      if (demandsCard) {
+        demandsCard.style.display = 'block';
+        demandsCard.style.gridColumn = '';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   },
 
@@ -136,21 +215,29 @@ const AdminManager = {
     const topGaps = data.topSkillGaps || [];
     const topDemands = data.topDemandSkills || [];
 
-    // Summary Cards
+    // Summary Cards (Admin Console & Admin Home Page)
     const totalUsersEl = document.getElementById('adminTotalUsers');
     if (totalUsersEl) totalUsersEl.textContent = summary.totalUsers || 0;
+    const adminHomeTotalUsers = document.getElementById('adminHomeTotalUsers');
+    if (adminHomeTotalUsers) adminHomeTotalUsers.textContent = summary.totalUsers || 0;
 
     const avgReadinessEl = document.getElementById('adminAvgReadiness');
     if (avgReadinessEl) avgReadinessEl.textContent = `${summary.avgReadinessScore || 0}%`;
+    const adminHomeAvgReadiness = document.getElementById('adminHomeAvgReadiness');
+    if (adminHomeAvgReadiness) adminHomeAvgReadiness.textContent = `${summary.avgReadinessScore || 0}%`;
 
     const totalQuizzesEl = document.getElementById('adminTotalQuizzes');
     if (totalQuizzesEl) totalQuizzesEl.textContent = summary.totalQuizzesTaken || 0;
+    const adminHomeTotalQuizzes = document.getElementById('adminHomeTotalQuizzes');
+    if (adminHomeTotalQuizzes) adminHomeTotalQuizzes.textContent = summary.totalQuizzesTaken || 0;
 
     const avgQuizEl = document.getElementById('adminAvgQuizAcc');
     if (avgQuizEl) avgQuizEl.textContent = summary.avgQuizAccuracy || '0%';
 
     const totalRoadmapsEl = document.getElementById('adminTotalRoadmaps');
     if (totalRoadmapsEl) totalRoadmapsEl.textContent = summary.totalRoadmapsGenerated || 0;
+    const adminHomeTotalRoadmaps = document.getElementById('adminHomeTotalRoadmaps');
+    if (adminHomeTotalRoadmaps) adminHomeTotalRoadmaps.textContent = summary.totalRoadmapsGenerated || 0;
 
     // Role Breakdown Badges / Counts
     const rolesContainer = document.getElementById('adminRoleBreakdown');
@@ -204,6 +291,8 @@ const AdminManager = {
       const res = client && client.get ? await client.get('/admin/users') : await client.request('/admin/users');
       if (res && res.success && res.users) {
         this.allUsers = res.users;
+        const tabUserCount = document.getElementById('adminTabUserCount');
+        if (tabUserCount) tabUserCount.textContent = this.allUsers.length;
         this.filterUsers();
       }
     } catch (err) {

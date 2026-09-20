@@ -87,7 +87,9 @@ const App = {
     const adminBrandBadge = document.getElementById('adminBrandBadge');
     const navBrandSubtitle = document.getElementById('navBrandSubtitle');
 
-    if (viewId === 'admin') {
+    const onAdminOrHome = (viewId === 'admin' || (viewId === 'home' && isAdmin));
+
+    if (onAdminOrHome) {
       if (studentNav) studentNav.style.display = 'none';
       if (adminNav) adminNav.style.display = 'flex';
       if (adminBrandBadge) adminBrandBadge.style.display = 'inline-block';
@@ -95,8 +97,12 @@ const App = {
     } else {
       if (studentNav) studentNav.style.display = 'flex';
       if (adminNav) adminNav.style.display = 'none';
-      if (adminBrandBadge) adminBrandBadge.style.display = 'none';
-      if (navBrandSubtitle) navBrandSubtitle.textContent = 'Skill Gap & Readiness Platform';
+      if (adminBrandBadge) adminBrandBadge.style.display = isAdmin ? 'inline-block' : 'none';
+      if (navBrandSubtitle) navBrandSubtitle.textContent = isAdmin ? 'Administrator (Candidate Sandbox)' : 'Skill Gap & Readiness Platform';
+    }
+
+    if (window.Auth && window.Auth.updateHomeContent) {
+      window.Auth.updateHomeContent();
     }
 
     // Deactivate current view
@@ -105,9 +111,12 @@ const App = {
 
     // Update active state in nav
     document.querySelectorAll('.nav-item').forEach(item => {
-      if (item.getAttribute('data-navigate') === viewId) {
+      const navTarget = item.getAttribute('data-navigate');
+      const adminTabTarget = item.getAttribute('data-admin-tab');
+
+      if (navTarget === viewId || (isAdmin && viewId === 'home' && adminTabTarget === 'home') || (isAdmin && viewId === 'admin' && adminTabTarget === 'all')) {
         item.classList.add('active');
-      } else if (!item.hasAttribute('data-admin-scroll')) {
+      } else if (navTarget) {
         item.classList.remove('active');
       }
     });
@@ -121,6 +130,11 @@ const App = {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Trigger view-specific activations
+    if (viewId === 'home' && isAdmin) {
+      if (window.AdminManager && window.AdminManager.loadOverview) {
+        window.AdminManager.loadOverview();
+      }
+    }
     if (viewId === 'progress' || viewId === 'dashboard') {
       if (window.ProgressManager) {
         window.ProgressManager.loadDashboardData();
