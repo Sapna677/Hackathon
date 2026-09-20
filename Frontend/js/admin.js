@@ -1,7 +1,12 @@
-/**
- * Admin Portal Management Controller
- * Handles Platform Analytics, User Progress Monitoring & Cohort Insights
- */
+function escapeHtmlAdmin(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 const AdminManager = {
   allUsers: [],
@@ -151,35 +156,43 @@ const AdminManager = {
     const rolesContainer = document.getElementById('adminRoleBreakdown');
     if (rolesContainer) {
       rolesContainer.innerHTML = Object.entries(roleBreakdown).map(([role, count]) => `
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.8rem; background: #f8fafc; border-radius: 8px; margin-bottom: 0.4rem;">
-          <span style="font-weight: 600; font-size: 0.88rem; color: #334155;">${role}</span>
-          <span class="badge" style="background: var(--primary-light); color: var(--primary); font-weight: 700; font-size: 0.85rem;">${count} users</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.9rem; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 10px; margin-bottom: 0.45rem;">
+          <span style="font-weight: 600; font-size: 0.88rem; color: #334155;">🎓 ${escapeHtmlAdmin(role)}</span>
+          <span class="badge" style="background: var(--primary-light); color: var(--primary); font-weight: 700; font-size: 0.82rem; padding: 0.2rem 0.6rem; border-radius: 9999px;">${count} learners</span>
         </div>
       `).join('');
     }
 
-    // Top Skill Gaps in Cohort
+    // Top Student Skill Gaps
     const gapsContainer = document.getElementById('adminTopSkillGaps');
     if (gapsContainer) {
-      gapsContainer.innerHTML = topGaps.slice(0, 5).map(g => `
-        <div style="margin-bottom: 0.6rem;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.2rem;">
-            <span style="font-weight: 600; color: #1e293b;">${g.name}</span>
-            <span style="color: var(--danger); font-weight: 700;">${g.count} missing</span>
+      const totalU = summary.totalUsers || 5;
+      gapsContainer.innerHTML = topGaps.slice(0, 5).map(g => {
+        const pct = Math.round((g.count / totalU) * 100);
+        return `
+        <div style="margin-bottom: 0.65rem; background: #fff5f5; padding: 0.6rem 0.85rem; border-radius: 10px; border: 1px solid #fee2e2;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem; align-items: center;">
+            <span style="font-weight: 700; color: #991b1b; display: flex; align-items: center; gap: 0.35rem;">
+              <span>⚠️</span> ${escapeHtmlAdmin(g.name)}
+            </span>
+            <span style="color: #b91c1c; font-weight: 700; font-size: 0.78rem; background: #fecaca; padding: 0.15rem 0.5rem; border-radius: 9999px;">
+              ${g.count} missing (${pct}%)
+            </span>
           </div>
           <div style="height: 6px; background: #fee2e2; border-radius: 9999px; overflow: hidden;">
-            <div style="height: 100%; width: ${Math.min(100, (g.count / (summary.totalUsers || 5)) * 100)}%; background: var(--danger); border-radius: 9999px;"></div>
+            <div style="height: 100%; width: ${Math.min(100, pct)}%; background: linear-gradient(90deg, #ef4444, #dc2626); border-radius: 9999px; transition: width 0.5s ease;"></div>
           </div>
         </div>
-      `).join('');
+      `}).join('');
     }
 
-    // Top In-Demand Skills
+    // Top In-Demand Skills Found
     const demandsContainer = document.getElementById('adminTopDemands');
     if (demandsContainer) {
-      demandsContainer.innerHTML = topDemands.slice(0, 5).map(d => `
-        <span class="skill-tag" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; font-size: 0.82rem; padding: 0.35rem 0.75rem;">
-          ${d.name} <strong style="color: #312e81;">(${d.count})</strong>
+      demandsContainer.innerHTML = topDemands.slice(0, 6).map(d => `
+        <span class="skill-tag" style="background: linear-gradient(135deg, #ecfdf5, #f0fdf4); color: #065f46; border: 1px solid #a7f3d0; font-size: 0.85rem; padding: 0.35rem 0.8rem; border-radius: 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 1px 2px rgba(16, 185, 129, 0.08);">
+          <span style="color: #059669;">✔</span> ${escapeHtmlAdmin(d.name)}
+          <strong style="color: #047857; background: #d1fae5; padding: 0.1rem 0.45rem; border-radius: 9999px; font-size: 0.76rem;">${d.count}</strong>
         </span>
       `).join('');
     }

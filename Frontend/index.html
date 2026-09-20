@@ -40,7 +40,7 @@
     <ul id="adminNavLinks" class="nav-links" style="display: none;">
       <li class="nav-item active" data-navigate="admin">📊 Overview &amp; KPIs</li>
       <li class="nav-item" data-admin-scroll="directory">👥 Student Directory</li>
-      <li class="nav-item" data-admin-scroll="gaps">⚠️ Cohort Skill Gaps</li>
+      <li class="nav-item" data-admin-scroll="gaps">⚠️ Student Skill Gaps</li>
       <li class="nav-item" data-admin-scroll="skills">🌟 Top Verified Skills</li>
       <li class="nav-item" id="adminNavRefresh" style="color: #4f46e5; font-weight: 700; cursor: pointer;">🔄 Refresh Live Data</li>
       <li class="nav-item" data-navigate="dashboard" style="color: #0284c7; font-weight: 700; background: #f0f9ff; border: 1px solid #bae6fd;">👁️ Candidate View</li>
@@ -812,14 +812,14 @@
   <div id="view-admin" class="view-container">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
       <div>
-        <div class="badge" style="background: #e0e7ff; color: #4338ca; font-size: 0.82rem; margin-bottom: 0.4rem; padding: 0.3rem 0.8rem;">
+        <div class="badge" style="background: linear-gradient(135deg, #e0e7ff, #ede9fe); color: #4338ca; font-size: 0.85rem; margin-bottom: 0.45rem; padding: 0.35rem 0.9rem; border: 1px solid #c7d2fe; box-shadow: 0 1px 3px rgba(99, 102, 241, 0.1);">
           🛡️ Admin &amp; Mentor Executive Dashboard
         </div>
         <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--dark-bg);">User Progress &amp; Platform Analytics</h1>
         <p style="color: var(--text-muted); font-size: 0.95rem;">Monitor real-time student readiness, learning roadmap milestones, and active platform users.</p>
       </div>
       <div style="display: flex; gap: 0.75rem;">
-        <button id="adminRefreshBtn" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; gap: 0.4rem;">
+        <button id="adminRefreshBtn" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; gap: 0.4rem; font-weight: 600; border-color: #c7d2fe; color: #4338ca;">
           🔄 Refresh Data
         </button>
       </div>
@@ -828,9 +828,9 @@
     <!-- Top Metric Cards Grid -->
     <div class="grid-4" style="margin-bottom: 1.5rem;">
       <!-- Total Learners -->
-      <div class="card" style="padding: 1.25rem;">
+      <div class="card" style="padding: 1.35rem; border-top: 4px solid var(--primary); box-shadow: 0 4px 14px rgba(79, 70, 229, 0.08); border-radius: 14px; background: white;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">TOTAL ACTIVE USERS</span>
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.3px;">TOTAL ACTIVE USERS</span>
           <span style="font-size: 1.5rem;">👥</span>
         </div>
         <div id="adminTotalUsers" style="font-size: 2.2rem; font-weight: 800; color: var(--primary); margin: 0.4rem 0;">0</div>
@@ -839,22 +839,22 @@
         </div>
       </div>
 
-      <!-- Cohort Avg Readiness -->
-      <div class="card" style="padding: 1.25rem;">
+      <!-- Student Avg Readiness -->
+      <div class="card" style="padding: 1.35rem; border-top: 4px solid #059669; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.08); border-radius: 14px; background: white;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">AVG READINESS SCORE</span>
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.3px;">AVG READINESS SCORE</span>
           <span style="font-size: 1.5rem;">⚡</span>
         </div>
         <div id="adminAvgReadiness" style="font-size: 2.2rem; font-weight: 800; color: #059669; margin: 0.4rem 0;">0%</div>
         <div style="font-size: 0.8rem; color: var(--text-muted);">
-          Across all active job profiles
+          Across all student target profiles
         </div>
       </div>
 
       <!-- Total Quizzes Taken -->
-      <div class="card" style="padding: 1.25rem;">
+      <div class="card" style="padding: 1.35rem; border-top: 4px solid #2563eb; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08); border-radius: 14px; background: white;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">QUIZZES COMPLETED</span>
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.3px;">QUIZZES COMPLETED</span>
           <span style="font-size: 1.5rem;">📝</span>
         </div>
         <div id="adminTotalQuizzes" style="font-size: 2.2rem; font-weight: 800; color: #2563eb; margin: 0.4rem 0;">0</div>
@@ -864,9 +864,9 @@
       </div>
 
       <!-- Active Roadmaps -->
-      <div class="card" style="padding: 1.25rem;">
+      <div class="card" style="padding: 1.35rem; border-top: 4px solid #7c3aed; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.08); border-radius: 14px; background: white;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">ROADMAPS GENERATED</span>
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.3px;">ROADMAPS GENERATED</span>
           <span style="font-size: 1.5rem;">🎯</span>
         </div>
         <div id="adminTotalRoadmaps" style="font-size: 2.2rem; font-weight: 800; color: #7c3aed; margin: 0.4rem 0;">0</div>
@@ -876,22 +876,22 @@
       </div>
     </div>
 
-    <!-- Cohort Analytics & Category Breakdown Row -->
+    <!-- Student Analytics & Category Breakdown Row -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
       <!-- Role Breakdown -->
-      <div class="card" style="padding: 1.25rem;">
-        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b;">
-          📊 User Distribution by Category
+      <div class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b; display: flex; align-items: center; gap: 0.4rem;">
+          <span>📊</span> User Distribution by Category
         </h3>
         <div id="adminRoleBreakdown">
           <!-- Dynamic Role Badges -->
         </div>
       </div>
 
-      <!-- Top Missing Skill Gaps in Cohort -->
-      <div class="card" style="padding: 1.25rem;">
-        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b;">
-          ⚠ Top Missing Skills (Cohort Gaps)
+      <!-- Top Missing Skill Gaps in Students -->
+      <div class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b; display: flex; align-items: center; gap: 0.4rem;">
+          <span>⚠️</span> Top Missing Skills (Student Gaps)
         </h3>
         <div id="adminTopSkillGaps">
           <!-- Dynamic Skill Gaps -->
@@ -899,9 +899,9 @@
       </div>
 
       <!-- Top In-Demand Skills Found -->
-      <div class="card" style="padding: 1.25rem;">
-        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b;">
-          🌟 Top Verified Student Skills
+      <div class="card" style="padding: 1.35rem; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: white;">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; color: #1e293b; display: flex; align-items: center; gap: 0.4rem;">
+          <span>🌟</span> Top Verified Student Skills
         </h3>
         <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Most frequent competencies extracted from uploaded resumes:</p>
         <div id="adminTopDemands" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
