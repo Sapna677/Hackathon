@@ -87,6 +87,15 @@ const AdminManager = {
         }
       });
     });
+
+    // Admin Navbar Live Refresh
+    const adminNavRefresh = document.getElementById('adminNavRefresh');
+    if (adminNavRefresh) {
+      adminNavRefresh.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.loadAllAdminData(true);
+      });
+    }
   },
 
   async loadAllAdminData(showNotice = false) {

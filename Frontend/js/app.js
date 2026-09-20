@@ -38,9 +38,11 @@ const App = {
     window.ProgressManager.init();
     if (window.AdminManager) window.AdminManager.init();
 
-    // Check hash route or default to home
+    // Check hash route or default to home/admin
     const hash = window.location.hash.replace('#', '');
-    if (hash) {
+    if (window.Auth && window.Auth.isAdmin()) {
+      this.navigateTo('admin');
+    } else if (hash) {
       this.navigateTo(hash);
     } else {
       this.navigateTo('home');
@@ -51,13 +53,19 @@ const App = {
     document.querySelectorAll('[data-navigate]').forEach(elem => {
       elem.addEventListener('click', (e) => {
         e.preventDefault();
-        const targetView = elem.getAttribute('data-navigate');
+        let targetView = elem.getAttribute('data-navigate');
+        if (window.Auth && window.Auth.isAdmin()) {
+          targetView = 'admin';
+        }
         this.navigateTo(targetView);
       });
     });
 
     window.addEventListener('hashchange', () => {
-      const hash = window.location.hash.replace('#', '');
+      let hash = window.location.hash.replace('#', '');
+      if (window.Auth && window.Auth.isAdmin()) {
+        hash = 'admin';
+      }
       if (hash && hash !== this.activeView) {
         this.navigateTo(hash, false);
       }
@@ -65,6 +73,26 @@ const App = {
   },
 
   navigateTo(viewId, updateHash = true) {
+    const isAdmin = window.Auth && window.Auth.isAdmin();
+
+    // Enforce strict role isolation
+    if (isAdmin) {
+      if (viewId !== 'admin') {
+        if (window.showToast) {
+          window.showToast('🛡️ Admin Mode: Candidate upload features are disabled in Administrator view.', 'info');
+        }
+        viewId = 'admin';
+      }
+    } else {
+      if (viewId === 'admin') {
+        if (window.showToast) {
+          window.showToast('🔐 Please log in with Administrator credentials to view the Admin Console.', 'info');
+        }
+        if (window.Auth) window.Auth.toggleAuthTab('admin');
+        viewId = 'auth';
+      }
+    }
+
     const target = document.getElementById(`view-${viewId}`);
     if (!target) return;
 
@@ -74,7 +102,7 @@ const App = {
     const adminBrandBadge = document.getElementById('adminBrandBadge');
     const navBrandSubtitle = document.getElementById('navBrandSubtitle');
 
-    if (viewId === 'admin') {
+    if (isAdmin || viewId === 'admin') {
       if (studentNav) studentNav.style.display = 'none';
       if (adminNav) adminNav.style.display = 'flex';
       if (adminBrandBadge) adminBrandBadge.style.display = 'inline-block';

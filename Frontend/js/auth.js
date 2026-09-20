@@ -207,26 +207,59 @@ const Auth = {
     window.App.navigateTo('home');
   },
 
+  isAdmin() {
+    if (!this.currentUser) return false;
+    return (
+      this.currentUser.role === 'Administrator' ||
+      this.currentUser.userRole === 'Administrator' ||
+      this.currentUser.isAdmin === true ||
+      this.currentUser.email === 'admin@careerready.ai'
+    );
+  },
+
   updateNavUi() {
     const userDisplay = document.getElementById('userProfileDisplay');
     const guestDisplay = document.getElementById('guestAuthControls');
     const userNameLabel = document.getElementById('navUserName');
     const userPill = userDisplay ? userDisplay.querySelector('div') : null;
 
+    const studentNav = document.getElementById('studentNavLinks');
+    const adminNav = document.getElementById('adminNavLinks');
+    const adminBrandBadge = document.getElementById('adminBrandBadge');
+    const navBrandSubtitle = document.getElementById('navBrandSubtitle');
+
+    const adminActive = this.isAdmin();
+
+    if (adminActive) {
+      if (studentNav) studentNav.style.display = 'none';
+      if (adminNav) adminNav.style.display = 'flex';
+      if (adminBrandBadge) adminBrandBadge.style.display = 'inline-block';
+      if (navBrandSubtitle) navBrandSubtitle.textContent = 'Administrator Management Console';
+    } else {
+      if (window.App && window.App.activeView === 'admin') {
+        if (studentNav) studentNav.style.display = 'none';
+        if (adminNav) adminNav.style.display = 'flex';
+      } else {
+        if (studentNav) studentNav.style.display = 'flex';
+        if (adminNav) adminNav.style.display = 'none';
+        if (adminBrandBadge) adminBrandBadge.style.display = 'none';
+        if (navBrandSubtitle) navBrandSubtitle.textContent = 'Skill Gap & Readiness Platform';
+      }
+    }
+
     if (this.currentUser) {
       if (userDisplay) userDisplay.style.display = 'flex';
       if (guestDisplay) guestDisplay.style.display = 'none';
 
-      const isAdmin = this.currentUser.role === 'Administrator' || this.currentUser.userRole === 'Administrator' || this.currentUser.isAdmin;
       if (userNameLabel) {
-        if (isAdmin) {
+        if (adminActive) {
           userNameLabel.innerHTML = '🛡️ Admin <span style="font-weight: 500; font-size: 0.78rem; opacity: 0.85;">(System)</span>';
           if (userPill) {
             userPill.style.background = '#ede9fe';
             userPill.style.color = '#4338ca';
             userPill.style.border = '1px solid #c4b5fd';
             userPill.style.cursor = 'pointer';
-            userPill.title = 'Click to go to Admin Portal';
+            userPill.title = 'Click to view Administrator Console';
             userPill.onclick = () => window.App.navigateTo('admin');
           }
         } else {
