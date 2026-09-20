@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+Backend/node_modules/
+package-lock.json
+
+# Environment variables & secrets
+.env
+Backend/.env
+
+# Temporary uploaded files
+Backend/uploads/*
+!Backend/uploads/.gitkeep
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+.project

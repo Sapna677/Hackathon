@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerReady AI | AI-Powered Career Readiness & Skill Gap Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <a href="#home" class="nav-brand" data-navigate="home">
+      <div class="brand-icon">🎓</div>
+      <div>
+        <span style="letter-spacing: -0.5px;">CareerReady <span style="color: var(--primary);">AI</span></span>
+        <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 500; margin-top: -3px;">Skill Gap & Readiness Platform</div>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li class="nav-item active" data-navigate="home">🏠 Home</li>
+      <li class="nav-item" data-navigate="dashboard">📊 Dashboard</li>
+      <li class="nav-item" data-navigate="resume">📄 Upload Resume</li>
+      <li class="nav-item" data-navigate="jd">🎯 Job Description</li>
+      <li class="nav-item" data-navigate="analysis">⚡ Skill Gap & Roadmap</li>
+      <li class="nav-item" data-navigate="quiz">📝 AI Quiz</li>
+      <li class="nav-item" data-navigate="progress">📈 Progress</li>
+      <li class="nav-item" data-navigate="admin" style="color: #4f46e5; font-weight: 700;">🛡️ Admin Portal</li>
+    </ul>
+
+    <div class="nav-auth">
+      <!-- Guest Controls -->
+      <div id="guestAuthControls" style="display: flex; gap: 0.5rem; align-items: center;">
+        <button id="demoLoginBtn" class="btn btn-demo btn-sm">⚡ 1-Click Demo</button>
+        <button id="navAdminDirectBtn" class="btn btn-secondary btn-sm" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;">🛡️ Admin Login</button>
+        <button class="btn btn-secondary btn-sm" data-navigate="auth">Sign In</button>
+      </div>
+
+      <!-- User Profile Controls -->
+      <div id="userProfileDisplay" style="display: none; align-items: center; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; background: var(--primary-light); padding: 0.35rem 0.85rem; border-radius: 9999px;">
+          <span style="font-size: 0.9rem;">👤</span>
+          <span id="navUserName" style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">User</span>
+        </div>
+        <button id="logoutBtn" class="btn btn-secondary btn-sm" style="color: var(--danger);">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- 1. HOME VIEW (Landing Page)                                               -->
+  <!-- ========================================================================= -->
+  <div id="view-home" class="view-container active">
+    <!-- Hero Banner -->
+    <div style="text-align: center; padding: 3rem 1rem 2.5rem; max-width: 900px; margin: 0 auto;">
+      <div class="badge" style="background: var(--primary-light); color: var(--primary); margin-bottom: 1rem; padding: 0.4rem 1rem; font-size: 0.85rem;">
+        ✨ From Your Resume ➔ To Your Dream Job ➔ With AI Guidance
+      </div>
+      <h1 style="font-size: 2.75rem; font-weight: 800; line-height: 1.2; color: var(--dark-bg); margin-bottom: 1.25rem;">
+        AI-Powered Career Readiness &amp; <span style="background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Skill Gap Platform</span>
+      </h1>
+      <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 720px; margin: 0 auto 2rem;">
+        Stop guessing what skills you are missing. Upload your resume, match it with target job descriptions, receive a personalized week-by-week learning roadmap, and test yourself with AI-generated quizzes.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <button class="btn btn-primary" style="padding: 0.85rem 1.8rem; font-size: 1rem;" data-navigate="resume">
+          🚀 Get Started - Upload Resume
+        </button>
+        <button id="demoLoginInlineBtn" class="btn btn-demo" style="padding: 0.85rem 1.5rem; font-size: 1rem;">
+          ⚡ Instant Demo Showcase
+        </button>
+      </div>
+    </div>
+
+    <!-- Section 1 & 2: Problem, Solution & Target Users -->
+    <div class="grid-2" style="margin-top: 1rem;">
+      <div class="card" style="border-left: 5px solid var(--danger);">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <span style="font-size: 1.75rem;">🎯</span>
+          <h2 style="font-size: 1.3rem; font-weight: 700;">1. The Problem</h2>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+          Students and freshers don't know what exact skills they are missing for a specific job role. They waste countless hours on random, disorganized tutorials without a structured path.
+        </p>
+        <div style="background: var(--danger-light); padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; color: #b91c1c; font-weight: 600;">
+          ❌ Unstructured learning • Unclear job requirements • Low interview conversion
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 5px solid var(--success);">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <span style="font-size: 1.75rem;">💡</span>
+          <h2 style="font-size: 1.3rem; font-weight: 700;">The AI Solution</h2>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+          An all-in-one AI platform that automatically parses your resume + job description, identifies precise skill gaps, creates a personalized week-by-week roadmap, and tracks your readiness with AI quizzes.
+        </p>
+        <div style="background: var(--success-light); padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; color: #047857; font-weight: 600;">
+          ✔ Matched / Missing / Weak Analysis • Curated Pathways • Real-time Progress
+        </div>
+      </div>
+    </div>
+
+    <!-- Target Users Grid -->
+    <div class="card" style="margin-top: 0.5rem;">
+      <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.25rem; text-align: center;">
+        👥 Designed Specially For:
+      </h3>
+      <div class="grid-4">
+        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🎓</div>
+          <h4 style="font-size: 1rem; font-weight: 700;">College Students</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Prepare semester projects tailored to industry tech stacks.</p>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">💼</div>
+          <h4 style="font-size: 1rem; font-weight: 700;">Freshers</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Bridge the gap between campus syllabus and company expectations.</p>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🔍</div>
+          <h4 style="font-size: 1rem; font-weight: 700;">Job Seekers</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Target dream roles by fixing missing qualifications.</p>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🚀</div>
+          <h4 style="font-size: 1rem; font-weight: 700;">Internship Seekers</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Accelerate hiring readiness from 8 weeks to 4 weeks.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Success Metrics Banner -->
+    <div class="card" style="background: linear-gradient(135deg, #1e1b4b, #312e81); color: white; margin-top: 1rem;">
+      <h3 style="font-size: 1.15rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; letter-spacing: 0.5px;">
+        🌟 Proven Impact &amp; Success Metrics
+      </h3>
+      <div class="grid-4" style="text-align: center;">
+        <div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: #34d399;">60%</div>
+          <div style="font-size: 0.85rem; opacity: 0.85;">Skill Gap Reduction</div>
+        </div>
+        <div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: #60a5fa;">48% ➔ 78%</div>
+          <div style="font-size: 0.85rem; opacity: 0.85;">Quiz Accuracy Improvement</div>
+        </div>
+        <div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: #fbbf24;">8w ➔ 4w</div>
+          <div style="font-size: 0.85rem; opacity: 0.85;">Time to Job Readiness</div>
+        </div>
+        <div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: #f472b6;">94%</div>
+          <div style="font-size: 0.85rem; opacity: 0.85;">User Engagement &amp; Retention</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. REGISTER / LOGIN VIEW                                                  -->
+  <!-- ========================================================================= -->
+  <div id="view-auth" class="view-container">
+    <div style="max-width: 480px; margin: 2rem auto;">
+      <!-- Auth Switcher Tabs -->
+      <div style="display: flex; background: #e2e8f0; border-radius: 12px; padding: 4px; margin-bottom: 1.5rem; gap: 4px;">
+        <button id="tabAuthLogin" class="btn btn-secondary active" style="flex: 1; border: none; border-radius: 8px;">Sign In</button>
+        <button id="tabAuthRegister" class="btn btn-secondary" style="flex: 1; border: none; border-radius: 8px;">Create Account</button>
+        <button id="tabAuthAdmin" class="btn btn-secondary" style="flex: 1; border: none; border-radius: 8px; color: #4338ca; font-weight: 700;">🛡️ Admin Login</button>
+      </div>
+
+      <!-- Sign In Card -->
+      <div id="loginCard" class="card">
+        <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center;">Welcome Back 👋</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Sign in to access your saved resume, roadmap &amp; scores.</p>
+        
+        <form id="loginForm">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="loginEmail" class="form-control" placeholder="name@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Sign In</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color);">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Want to test without typing?</span><br>
+          <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap;">
+            <button class="btn btn-demo btn-sm" onclick="window.Auth.handleDemoLogin()">⚡ 1-Click Demo</button>
+            <button class="btn btn-secondary btn-sm" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;" onclick="window.Auth.toggleAuthTab('admin')">🛡️ Admin Login</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Login Card -->
+      <div id="adminLoginCard" class="card" style="display: none; border: 2px solid #c7d2fe; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.15);">
+        <div style="text-align: center; margin-bottom: 1rem;">
+          <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #4f46e5, #0ea5e9); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; margin-bottom: 0.5rem;">
+            🛡️
+          </div>
+          <h2 style="font-size: 1.4rem; font-weight: 800; color: #1e293b; margin-bottom: 0.25rem;">Administrator Sign In</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Access platform analytics, user progress metrics, and cohort diagnostic tools.</p>
+        </div>
+
+        <div style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.82rem; color: #3730a3;">
+          <strong>💡 Pre-Configured Admin Credentials:</strong><br>
+          Email: <code style="background: white; padding: 2px 6px; border-radius: 4px; font-weight: 700;">admin@careerready.ai</code><br>
+          Password: <code style="background: white; padding: 2px 6px; border-radius: 4px; font-weight: 700;">admin123</code>
+        </div>
+
+        <form id="adminLoginForm">
+          <div class="form-group">
+            <label class="form-label">Admin Email Address</label>
+            <input type="email" id="adminEmail" class="form-control" value="admin@careerready.ai" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Admin Password</label>
+            <input type="password" id="adminPassword" class="form-control" value="admin123" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem; background: #4338ca;">
+            🛡️ Sign In as Administrator
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+          <span style="font-size: 0.82rem; color: var(--text-muted);">Fast 1-Click Evaluation:</span><br>
+          <button class="btn btn-demo btn-sm" style="margin-top: 0.5rem; background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none;" onclick="window.Auth.handleInstantAdminLogin()">
+            ⚡ 1-Click Instant Admin Access
+          </button>
+        </div>
+      </div>
+
+      <!-- Register Card -->
+      <div id="registerCard" class="card" style="display: none;">
+        <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center;">Join CareerReady AI 🚀</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Create your profile to start your journey.</p>
+        
+        <form id="registerForm">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="regName" class="form-control" placeholder="e.g. Priya Sharma" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="regEmail" class="form-control" placeholder="priya@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">I am a:</label>
+            <select id="regRole" class="form-control">
+              <option value="College Student">College Student</option>
+              <option value="College Fresher">College Fresher</option>
+              <option value="Job Seeker">Job Seeker</option>
+              <option value="Internship Seeker">Internship Seeker</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="regPassword" class="form-control" placeholder="Minimum 6 characters" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Create Free Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 3. DASHBOARD VIEW                                                         -->
+  <!-- ========================================================================= -->
+  <div id="view-dashboard" class="view-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--dark-bg);">Career Readiness Dashboard</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Monitor your readiness metrics, skill gap reduction, and weekly milestones.</p>
+      </div>
+      <div style="display: flex; gap: 0.75rem;">
+        <button class="btn btn-primary btn-sm" data-navigate="resume">📄 Upload New Resume</button>
+        <button class="btn btn-demo btn-sm" data-navigate="quiz">📝 Take AI Quiz</button>
+      </div>
+    </div>
+
+    <!-- Top Metric Cards Grid -->
+    <div class="grid-4" style="margin-bottom: 1.5rem;">
+      <!-- Readiness Gauge Card -->
+      <div class="card" style="text-align: center; padding: 1.5rem;">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.75rem;">OVERALL READINESS</div>
+        <div class="gauge-container" style="width: 120px; height: 120px;">
+          <svg viewBox="0 0 160 160" width="120" height="120" class="gauge-circle">
+            <circle class="gauge-background" cx="80" cy="80" r="70"></circle>
+            <circle id="dashboardReadinessGauge" class="gauge-fill" cx="80" cy="80" r="70" style="stroke-dashoffset: 220; stroke: var(--primary);"></circle>
+          </svg>
+          <div id="dashboardReadinessNumber" class="gauge-value" style="font-size: 1.5rem;">65%</div>
+        </div>
+        <span class="badge badge-matched" style="margin-top: 0.5rem;">Near Ready</span>
+      </div>
+
+      <!-- Metric 1: Skill Gap Reduction -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">SKILL GAP REDUCTION</div>
+        <div>
+          <div id="metricSkillGapReduction" style="font-size: 2.2rem; font-weight: 800; color: var(--success); margin: 0.25rem 0;">60%</div>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Fewer missing skills vs baseline</p>
+        </div>
+        <div class="badge badge-tech" style="align-self: flex-start;">On Track</div>
+      </div>
+
+      <!-- Metric 2: Quiz Accuracy -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">QUIZ ACCURACY</div>
+        <div>
+          <div id="metricQuizAccuracy" style="font-size: 2.2rem; font-weight: 800; color: var(--secondary); margin: 0.25rem 0;">48% ➔ 78%</div>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Performance across technical MCQs</p>
+        </div>
+        <div class="badge badge-tech" style="align-self: flex-start;">+30% Growth</div>
+      </div>
+
+      <!-- Metric 3: Time to Job Readiness -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">ESTIMATED READINESS</div>
+        <div>
+          <div id="metricTimeToReadiness" style="font-size: 2.2rem; font-weight: 800; color: var(--warning); margin: 0.25rem 0;">3 - 4 Weeks</div>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Accelerated from 8 weeks</p>
+        </div>
+        <div class="badge badge-tech" style="align-self: flex-start;">High Velocity</div>
+      </div>
+    </div>
+
+    <!-- Quick Action Shortcut Cards -->
+    <div class="grid-3" style="margin-bottom: 1.5rem;">
+      <div class="card" style="border-top: 4px solid var(--primary); cursor: pointer;" data-navigate="resume">
+        <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">📄</div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem;">1. Resume Parsing</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Upload your PDF resume to automatically extract skills, education, and projects.</p>
+        <span class="btn btn-secondary btn-sm">Upload Resume ➔</span>
+      </div>
+
+      <div class="card" style="border-top: 4px solid var(--secondary); cursor: pointer;" data-navigate="jd">
+        <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">🎯</div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem;">2. Target Job Role</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Select your dream position or paste a job posting to extract required skills.</p>
+        <span class="btn btn-secondary btn-sm">Select Job Role ➔</span>
+      </div>
+
+      <div class="card" style="border-top: 4px solid var(--success); cursor: pointer;" data-navigate="analysis">
+        <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">⚡</div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem;">3. Skill Gap &amp; Roadmap</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">View Matched vs Missing skills and follow your personalized 4-week roadmap.</p>
+        <span class="btn btn-secondary btn-sm">Explore Roadmap ➔</span>
+      </div>
+    </div>
+
+    <!-- Growth Analytics Canvas Chart -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 700;">📈 Career Readiness Progression Curve</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Real-time readiness improvement as you complete roadmap tasks and take AI quizzes.</p>
+        </div>
+        <button id="refreshProgressBtn" class="btn btn-secondary btn-sm">🔄 Refresh Data</button>
+      </div>
+      <div style="position: relative; width: 100%; height: 250px; background: #fafafa; border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; padding: 0.5rem;">
+        <canvas id="readinessChartCanvas" style="width: 100%; height: 100%;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 4. UPLOAD RESUME VIEW                                                     -->
+  <!-- ========================================================================= -->
+  <div id="view-resume" class="view-container">
+    <div style="margin-bottom: 1.5rem;">
+      <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--dark-bg);">Resume Upload &amp; Skill Parsing</h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Upload your PDF resume or paste its text. Our parser automatically structures your technical stack.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- Upload Panel -->
+      <div class="card">
+        <!-- Switcher -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+          <button id="tabResumePdf" class="btn btn-secondary btn-sm active" style="flex: 1;">PDF Upload</button>
+          <button id="tabResumeText" class="btn btn-secondary btn-sm" style="flex: 1;">Paste Resume Text</button>
+        </div>
+
+        <!-- PDF Dropzone -->
+        <div id="panelResumePdf">
+          <div id="resumeDropzone" class="dropzone">
+            <div class="dropzone-icon">📄</div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem;">Upload Resume PDF</h3>
+            <p id="dropzoneStatus" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+              Drag &amp; drop your Resume file here, or click to browse
+            </p>
+            <input type="file" id="resumeFileInput" accept=".pdf,.txt,.doc,.docx" style="display: none;">
+            <button class="btn btn-primary btn-sm">Select PDF File</button>
+          </div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.75rem; text-align: center;">
+            Supports PDF, DOCX, and TXT files up to 10MB.
+          </div>
+        </div>
+
+        <!-- Paste Text Panel -->
+        <div id="panelResumeText" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">Paste Raw Resume Text:</label>
+            <textarea id="pasteResumeArea" class="form-control" rows="8" placeholder="Paste your resume summary, work experience, projects and technical skills here..."></textarea>
+          </div>
+          <button id="submitPastedResumeBtn" class="btn btn-primary" style="width: 100%;">Extract Skills From Text</button>
+        </div>
+
+        <!-- Pre-Loaded Sample Resumes for Demo Testing -->
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color);">
+          <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.6rem;">
+            ⚡ Or Test With Pre-Loaded Sample Profiles:
+          </div>
+          <div id="sampleResumesContainer" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <!-- Rendered by resume.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Extracted Resume Preview Panel -->
+      <div id="resumeParsedPreview" class="card" style="display: none; border-left: 5px solid var(--primary);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--dark-bg);">Extracted Candidate Profile</h3>
+          <span class="badge badge-matched">Parsing Complete</span>
+        </div>
+
+        <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 1.25rem;">
+          <div style="font-size: 1.1rem; font-weight: 700; color: var(--dark-bg);" id="candidateNamePreview">Candidate Name</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted);" id="candidateEmailPreview">candidate@example.com</div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 0.6rem;">
+            Detected Technical Skills:
+          </h4>
+          <div id="extractedSkillsPreview" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            <!-- Extracted skills badges -->
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1.25rem;">
+          <button id="quickGapFromResumeBtn" class="btn btn-demo" style="width: 100%; font-size: 0.95rem; padding: 0.75rem;">
+            ⚡ View Skill Gap &amp; Roadmap (Recommended) ➔
+          </button>
+          <button class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;" data-navigate="jd">
+            🎯 Or Choose Different Target Job Role ➔
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 5. JOB DESCRIPTION VIEW                                                   -->
+  <!-- ========================================================================= -->
+  <div id="view-jd" class="view-container">
+    <div style="margin-bottom: 1.5rem;">
+      <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--dark-bg);">Target Job Description &amp; Requirements</h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Select your target job role or paste an exact job description from LinkedIn, Indeed, or company careers page.</p>
+    </div>
+
+    <!-- Predefined Popular Job Roles -->
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">Popular Job Roles (1-Click Select):</h3>
+      <div id="roleCardsContainer" class="grid-3">
+        <!-- Rendered by jd.js -->
+      </div>
+    </div>
+
+    <!-- Custom Job Description Input -->
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">Or Paste Custom Job Description:</h3>
+        <div class="form-group">
+          <label class="form-label">Job Title / Role</label>
+          <input type="text" id="customJobTitle" class="form-control" placeholder="e.g. Associate Full Stack Engineer">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Job Description Text</label>
+          <textarea id="customJdText" class="form-control" rows="8" placeholder="Paste the job responsibilities, requirements, and required skills here..."></textarea>
+        </div>
+        <button id="analyzeJdBtn" class="btn btn-primary" style="width: 100%;">Analyze Job Requirements</button>
+      </div>
+
+      <!-- JD Skills Preview -->
+      <div id="jdParsedPreview" class="card" style="display: none; border-left: 5px solid var(--secondary);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.2rem; font-weight: 700;" id="jdRoleTitlePreview">Target Role</h3>
+          <span class="badge badge-tech">Target Requirements</span>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 0.6rem;">
+            Key Skills Required For This Role:
+          </h4>
+          <div id="jdSkillsPreview" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            <!-- Skills badges -->
+          </div>
+        </div>
+
+        <button id="runGapFromJdBtn" class="btn btn-demo" style="width: 100%;">
+          ⚡ Run AI Skill Gap Analysis Now ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 6. SKILL GAP ANALYSIS & PERSONALIZED ROADMAP                              -->
+  <!-- ========================================================================= -->
+  <div id="view-analysis" class="view-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--dark-bg);">AI Skill Gap Analysis &amp; Learning Roadmap</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Detailed breakdown of what skills you have vs what you need, with a structured action plan.</p>
+      </div>
+      <button id="runSkillGapBtn" class="btn btn-primary btn-sm">🔄 Recalculate Gap Analysis</button>
+    </div>
+
+    <!-- Gap Results Container -->
+    <div id="gapAnalysisResultContainer">
+      <!-- Score & Readiness Card -->
+      <div class="card" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+        <div style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 2rem;">
+          <!-- Circular Gauge -->
+          <div style="text-align: center;">
+            <div class="gauge-container">
+              <svg viewBox="0 0 160 160" width="160" height="160" class="gauge-circle">
+                <circle class="gauge-background" cx="80" cy="80" r="70"></circle>
+                <circle id="readinessGaugeCircle" class="gauge-fill" cx="80" cy="80" r="70"></circle>
+              </svg>
+              <div id="readinessScoreValue" class="gauge-value">--%</div>
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-top: 0.5rem;">CAREER READINESS SCORE</div>
+          </div>
+
+          <!-- Readiness Summary -->
+          <div style="max-width: 480px;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <span style="font-size: 1.1rem; font-weight: 700;">Status:</span>
+              <span id="readinessLevelBadge" class="badge badge-matched" style="font-size: 0.95rem;">Evaluating...</span>
+            </div>
+            <div style="font-size: 0.95rem; color: #475569; margin-bottom: 0.75rem;">
+              <strong>Estimated Time to Job Readiness:</strong> <span id="timeToReadinessValue" style="color: var(--primary); font-weight: 700;">4 - 6 Weeks</span>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem;">
+              <button id="triggerQuizFromGapBtn" class="btn btn-demo btn-sm">📝 Test Missing Skills With AI Quiz</button>
+              <button id="triggerGenRoadmapBtn" class="btn btn-secondary btn-sm">🎯 Refresh Roadmap</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Columns: Matched / Missing / Weak Skills -->
+      <div class="grid-3" style="margin-bottom: 1.5rem;">
+        <!-- Matched -->
+        <div class="card" style="border-top: 4px solid var(--success);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #047857;">🟢 Matched Skills</h3>
+            <span class="badge badge-matched">Validated</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Found in your resume! Showcase these clearly in your portfolio &amp; interview introductions.
+          </p>
+          <div id="matchedSkillsList" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            <!-- Badges -->
+          </div>
+        </div>
+
+        <!-- Missing Skills -->
+        <div class="card" style="border-top: 4px solid var(--danger);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #b91c1c;">🔴 Missing Skills</h3>
+            <span class="badge badge-missing">Critical Gap</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Required by the job but absent from your resume. Follow the weekly curriculum below.
+          </p>
+          <div id="missingSkillsList" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            <!-- Badges -->
+          </div>
+        </div>
+
+        <!-- Weak Skills -->
+        <div class="card" style="border-top: 4px solid var(--warning);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #b45309;">🟡 Weak / Partial</h3>
+            <span class="badge badge-weak">Needs Depth</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Mentioned briefly without hands-on project depth. Build practical projects to validate.
+          </p>
+          <div id="weakSkillsList" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            <!-- Badges -->
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Recommendations Box -->
+      <div class="card" style="background: #f8fafc; border-left: 5px solid #6366f1; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--dark-bg);">
+          🧠 AI Guidance &amp; Strategic Recommendations:
+        </h3>
+        <ul id="aiRecommendationsList" style="padding-left: 1.2rem; color: #334155;">
+          <!-- Dynamic tips -->
+        </ul>
+      </div>
+
+      <!-- Personalized Weekly Learning Roadmap Section -->
+      <div style="margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--dark-bg);">
+              🗓 Personalized Learning Roadmap (<span id="roadmapRoleTitle">Target Role</span>)
+            </h2>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">Check off tasks as you complete them to track your weekly growth.</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span id="roadmapProgressPercent" style="font-weight: 700; font-size: 0.95rem; color: var(--primary);">0% Complete</span>
+            <div style="width: 120px; height: 10px; background: #e2e8f0; border-radius: 9999px; overflow: hidden;">
+              <div id="roadmapOverallProgressBar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.4s ease;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="roadmapWeeksContainer">
+          <!-- Week 1, 2, 3, 4 cards rendered by roadmap.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 7. AI QUIZ & ASSESSMENT VIEW                                              -->
+  <!-- ========================================================================= -->
+  <div id="view-quiz" class="view-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--dark-bg);">AI Quiz &amp; Technical Assessment</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Test your conceptual and practical understanding on identified skill gaps.</p>
+      </div>
+      <button id="startNewQuizBtn" class="btn btn-primary btn-sm">⚡ Generate New Quiz</button>
+    </div>
+
+    <!-- Quiz Intro Card -->
+    <div id="quizIntroCard" class="card" style="text-align: center; padding: 2.5rem 1.5rem;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem;">Ready to Validate Your Knowledge?</h2>
+      <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 1.5rem; font-size: 0.95rem;">
+        The AI generates 5 high-yield multiple choice questions targeted specifically at your missing or weak skills. Immediate feedback and detailed explanations are provided.
+      </p>
+      <button id="startQuizFromIntroBtn" class="btn btn-demo" style="padding: 0.75rem 2rem; font-size: 1rem;">
+        🚀 Start 5-Minute Assessment
+      </button>
+    </div>
+
+    <!-- Active Quiz Card -->
+    <div id="quizActiveBox" style="display: none;">
+      <!-- Quiz Header Banner -->
+      <div class="card" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem; padding: 1rem 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span id="quizTestedSkillsBadge" class="badge badge-tech" style="font-size: 0.85rem;">Skills: React, Docker</span>
+          <span id="quizTotalCountBadge" class="badge badge-tech">5 Questions</span>
+        </div>
+        <div id="quizTimerDisplay" style="font-size: 1.15rem; font-weight: 800; color: #10b981;">
+          ⏱ 5:00
+        </div>
+      </div>
+
+      <!-- Question Cards -->
+      <div id="quizQuestionsContainer">
+        <!-- Rendered by quiz.js -->
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button id="submitQuizBtn" class="btn btn-primary" style="padding: 0.85rem 2.5rem; font-size: 1rem;">
+          Submit Answers &amp; Check Performance ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- Quiz Results Box -->
+    <div id="quizResultBox" class="card" style="display: none; border-top: 5px solid var(--success);">
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <div style="font-size: 2.75rem; font-weight: 800; color: var(--primary);" id="quizResultAccuracy">80%</div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--dark-bg); margin-top: 0.25rem;">Assessment Complete!</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;" id="quizResultSummary">4 out of 5 correct</p>
+        <div style="background: var(--success-light); color: #047857; padding: 0.75rem 1.25rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; display: inline-block; margin-top: 0.75rem;" id="quizResultFeedback">
+          Strong performance!
+        </div>
+      </div>
+
+      <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+        Detailed Explanations &amp; Answer Breakdown:
+      </h4>
+      <div id="quizDetailedBreakdown">
+        <!-- Detailed answers and explanations -->
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+        <button id="retakeQuizBtn" class="btn btn-primary">Retake Assessment 🔄</button>
+        <button class="btn btn-secondary" data-navigate="progress">View Updated Progress Dashboard 📈</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 8. PROGRESS DASHBOARD VIEW                                                -->
+  <!-- ========================================================================= -->
+  <div id="view-progress" class="view-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--dark-bg);">Comprehensive Growth &amp; Readiness Tracking</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Track skill gap reduction, quiz accuracy trends, and readiness milestones over time.</p>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Export Readiness Report</button>
+    </div>
+
+    <!-- Metrics Row -->
+    <div class="grid-4" style="margin-bottom: 1.5rem;">
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">SKILL GAP REDUCTION</div>
+        <div style="font-size: 2.2rem; font-weight: 800; color: var(--success); margin: 0.4rem 0;">60%</div>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">Closed gaps via roadmap milestones</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">QUIZ ACCURACY</div>
+        <div style="font-size: 2.2rem; font-weight: 800; color: var(--secondary); margin: 0.4rem 0;">48% ➔ 78%</div>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">Technical assessment improvement</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">TIME TO JOB READINESS</div>
+        <div style="font-size: 2.2rem; font-weight: 800; color: var(--warning); margin: 0.4rem 0;">4 Weeks</div>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">Halved from typical 8 weeks</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">CAREER READINESS SCORE</div>
+        <div style="font-size: 2.2rem; font-weight: 800; color: var(--primary); margin: 0.4rem 0;">85%</div>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">Ready for technical interviews</p>
+      </div>
+    </div>
+
+    <!-- Career Readiness Milestones Checklist -->
+    <div class="card">
+      <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">🏆 Career Readiness Milestones</h3>
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: #ecfdf5; border-radius: 10px; border: 1px solid #a7f3d0;">
+          <span style="font-size: 1.25rem;">✅</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: 0.92rem; color: #065f46;">Resume Parsed &amp; Skill Baseline Established</div>
+            <div style="font-size: 0.8rem; color: #047857;">Completed automatic extraction of existing technical stack.</div>
+          </div>
+          <span class="badge badge-matched">Completed</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: #ecfdf5; border-radius: 10px; border: 1px solid #a7f3d0;">
+          <span style="font-size: 1.25rem;">✅</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: 0.92rem; color: #065f46;">Target Role Skill Gap Analysis Generated</div>
+            <div style="font-size: 0.8rem; color: #047857;">Categorized into Matched, Missing, and Weak skills.</div>
+          </div>
+          <span class="badge badge-matched">Completed</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: #eff6ff; border-radius: 10px; border: 1px solid #bfdbfe;">
+          <span style="font-size: 1.25rem;">🔄</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: 0.92rem; color: #1e40af;">Personalized 4-Week Learning Roadmap in Progress</div>
+            <div style="font-size: 0.8rem; color: #1d4ed8;">Milestone tasks actively being completed and verified.</div>
+          </div>
+          <span class="badge" style="background: #dbeafe; color: #1e40af;">In Progress</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: #faf5ff; border-radius: 10px; border: 1px solid #e9d5ff;">
+          <span style="font-size: 1.25rem;">🎯</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: 0.92rem; color: #6b21a8;">Final Capstone Portfolio Project &amp; Technical Interview Simulation</div>
+            <div style="font-size: 0.8rem; color: #7e22ce;">Final step before applying to dream jobs.</div>
+          </div>
+          <span class="badge" style="background: #f3e8ff; color: #6b21a8;">Upcoming</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 8. ADMIN PORTAL VIEW                                                      -->
+  <!-- ========================================================================= -->
+  <div id="view-admin" class="view-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <div class="badge" style="background: #e0e7ff; color: #4338ca; font-size: 0.82rem; margin-bottom: 0.4rem; padding: 0.3rem 0.8rem;">
+          🛡️ Admin &amp; Mentor Executive Dashboard
+        </div>
+        <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--dark-bg);">User Progress &amp; Platform Analytics</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Monitor real-time student readiness, learning roadmap milestones, and active platform users.</p>
+      </div>
+      <div style="display: flex; gap: 0.75rem;">
+        <button id="adminRefreshBtn" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; gap: 0.4rem;">
+          🔄 Refresh Data
+        </button>
+      </div>
+    </div>
+
+    <!-- Top Metric Cards Grid -->
+    <div class="grid-4" style="margin-bottom: 1.5rem;">
+      <!-- Total Learners -->
+      <div class="card" style="padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">TOTAL ACTIVE USERS</span>
+          <span style="font-size: 1.5rem;">👥</span>
+        </div>
+        <div id="adminTotalUsers" style="font-size: 2.2rem; font-weight: 800; color: var(--primary); margin: 0.4rem 0;">0</div>
+        <div style="font-size: 0.8rem; color: #10b981; font-weight: 600;">
+          ✔ Registered &amp; Evaluated Learners
+        </div>
+      </div>
+
+      <!-- Cohort Avg Readiness -->
+      <div class="card" style="padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">AVG READINESS SCORE</span>
+          <span style="font-size: 1.5rem;">⚡</span>
+        </div>
+        <div id="adminAvgReadiness" style="font-size: 2.2rem; font-weight: 800; color: #059669; margin: 0.4rem 0;">0%</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">
+          Across all active job profiles
+        </div>
+      </div>
+
+      <!-- Total Quizzes Taken -->
+      <div class="card" style="padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">QUIZZES COMPLETED</span>
+          <span style="font-size: 1.5rem;">📝</span>
+        </div>
+        <div id="adminTotalQuizzes" style="font-size: 2.2rem; font-weight: 800; color: #2563eb; margin: 0.4rem 0;">0</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">
+          Avg Accuracy: <strong id="adminAvgQuizAcc" style="color: #2563eb;">0%</strong>
+        </div>
+      </div>
+
+      <!-- Active Roadmaps -->
+      <div class="card" style="padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">ROADMAPS GENERATED</span>
+          <span style="font-size: 1.5rem;">🎯</span>
+        </div>
+        <div id="adminTotalRoadmaps" style="font-size: 2.2rem; font-weight: 800; color: #7c3aed; margin: 0.4rem 0;">0</div>
+        <div style="font-size: 0.8rem; color: #7c3aed; font-weight: 600;">
+          4-Week AI Pathways Active
+        </div>
+      </div>
+    </div>
+
+    <!-- Cohort Analytics & Category Breakdown Row -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+      <!-- Role Breakdown -->
+      <div class="card" style="padding: 1.25rem;">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b;">
+          📊 User Distribution by Category
+        </h3>
+        <div id="adminRoleBreakdown">
+          <!-- Dynamic Role Badges -->
+        </div>
+      </div>
+
+      <!-- Top Missing Skill Gaps in Cohort -->
+      <div class="card" style="padding: 1.25rem;">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b;">
+          ⚠ Top Missing Skills (Cohort Gaps)
+        </h3>
+        <div id="adminTopSkillGaps">
+          <!-- Dynamic Skill Gaps -->
+        </div>
+      </div>
+
+      <!-- Top In-Demand Skills Found -->
+      <div class="card" style="padding: 1.25rem;">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b;">
+          🌟 Top Verified Student Skills
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Most frequent competencies extracted from uploaded resumes:</p>
+        <div id="adminTopDemands" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+          <!-- Dynamic Tags -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Real-Time User Directory & Progress Table -->
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div style="padding: 1.25rem 1.5rem; background: #ffffff; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">Learners Progress Directory</h3>
+          <span id="adminUserCountBadge" class="badge" style="background: var(--primary-light); color: var(--primary); font-weight: 700;">
+            0 Learners Found
+          </span>
+        </div>
+
+        <!-- Controls: Search & Filters -->
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <input type="text" id="adminUserSearch" class="form-control" placeholder="🔍 Search name, email, role..." style="width: 240px; padding: 0.5rem 0.85rem; font-size: 0.85rem;">
+
+          <select id="adminRoleFilter" class="form-control" style="width: 170px; padding: 0.5rem 0.85rem; font-size: 0.85rem;">
+            <option value="ALL">All Roles</option>
+            <option value="College Student">College Student</option>
+            <option value="College Fresher">College Fresher</option>
+            <option value="Job Seeker">Job Seeker</option>
+            <option value="Internship Seeker">Internship Seeker</option>
+          </select>
+
+          <select id="adminSortFilter" class="form-control" style="width: 180px; padding: 0.5rem 0.85rem; font-size: 0.85rem;">
+            <option value="READINESS_DESC">Readiness (High → Low)</option>
+            <option value="READINESS_ASC">Readiness (Low → High)</option>
+            <option value="ROADMAP_DESC">Roadmap Progress</option>
+            <option value="NAME_ASC">Name (A → Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Users Table -->
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+          <thead>
+            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px;">
+              <th style="padding: 0.85rem 1.25rem;">Student / Candidate</th>
+              <th style="padding: 0.85rem 1rem;">Category &amp; Target Role</th>
+              <th style="padding: 0.85rem 1rem;">Resume Status</th>
+              <th style="padding: 0.85rem 1rem;">Readiness Score</th>
+              <th style="padding: 0.85rem 1rem;">Roadmap Progress</th>
+              <th style="padding: 0.85rem 1rem;">AI Quiz Avg</th>
+              <th style="padding: 0.85rem 1.25rem; text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminUsersTableBody">
+            <!-- Dynamic Users Rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ADMIN STUDENT PROGRESS DRILLDOWN MODAL                                    -->
+  <!-- ========================================================================= -->
+  <div id="adminUserModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 1050; align-items: center; justify-content: center; padding: 1rem;">
+    <div class="card" style="max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; animation: slideInUp 0.3s ease;">
+      <!-- Close Button -->
+      <button id="closeAdminModalBtn" style="position: absolute; top: 1.25rem; right: 1.25rem; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b;">
+        ✕
+      </button>
+
+      <!-- Student Header -->
+      <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-color);">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg, #4f46e5, #0ea5e9); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800;">
+          🎓
+        </div>
+        <div>
+          <h2 id="modalUserName" style="font-size: 1.4rem; font-weight: 800; color: #1e293b; margin-bottom: 0.2rem;">Student Name</h2>
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <span id="modalUserEmail" style="font-size: 0.88rem; color: #64748b;">student@example.com</span>
+            <span id="modalUserRole" class="badge" style="background: var(--primary-light); color: var(--primary);">College Student</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Strip -->
+      <div class="grid-3" style="margin-bottom: 1.5rem;">
+        <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">READINESS SCORE</div>
+          <div id="modalUserScore" style="font-size: 1.8rem; font-weight: 800; color: #10b981; margin: 0.25rem 0;">0%</div>
+          <div id="modalUserLevel" style="font-size: 0.78rem; font-weight: 600; color: #047857;">Intermediate</div>
+        </div>
+
+        <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">TARGET CAREER GOAL</div>
+          <div id="modalUserTarget" style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0.5rem 0;">Full Stack Developer</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Matched with industry JD</div>
+        </div>
+
+        <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">ESTIMATED TIME TO READINESS</div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: #f59e0b; margin: 0.4rem 0;">4 - 6 Weeks</div>
+          <div style="font-size: 0.75rem; color: #b45309; font-weight: 600;">Active Coaching Pathway</div>
+        </div>
+      </div>
+
+      <!-- Skills Diagnostic -->
+      <div style="margin-bottom: 1.5rem;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 0.6rem;">
+          💼 Verified Skills vs Missing Skill Gaps
+        </h4>
+        <div style="margin-bottom: 0.75rem;">
+          <div style="font-size: 0.8rem; font-weight: 600; color: #047857; margin-bottom: 0.35rem;">✔ Verified / Matched Skills:</div>
+          <div id="modalMatchedSkills" style="display: flex; flex-wrap: wrap; gap: 0.4rem;"></div>
+        </div>
+        <div>
+          <div style="font-size: 0.8rem; font-weight: 600; color: #b91c1c; margin-bottom: 0.35rem;">⚠ Missing Skills to Master:</div>
+          <div id="modalMissingSkills" style="display: flex; flex-wrap: wrap; gap: 0.4rem;"></div>
+        </div>
+      </div>
+
+      <!-- Learning Roadmap Milestones -->
+      <div style="margin-bottom: 1.5rem;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 0.6rem;">
+          🗺️ 4-Week Learning Roadmap &amp; Milestones
+        </h4>
+        <div id="modalRoadmapStatus"></div>
+      </div>
+
+      <!-- Quiz Performance History -->
+      <div>
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #1e293b; margin-bottom: 0.6rem;">
+          📝 AI Assessment Quiz Attempts
+        </h4>
+        <div id="modalQuizHistory"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- GLOBAL APPLICATION FOOTER                                                 -->
+  <!-- ========================================================================= -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #4f46e5, #0ea5e9); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+              🎓
+            </div>
+            <div>
+              <div style="font-weight: 800; font-size: 1.15rem; color: #1e293b; letter-spacing: -0.5px;">CareerReady AI</div>
+              <div style="font-size: 0.78rem; color: #64748b;">AI-Powered Career Readiness &amp; Skill Gap Platform</div>
+            </div>
+          </div>
+          <p style="color: #64748b; font-size: 0.85rem; margin-top: 0.75rem; max-width: 400px; line-height: 1.5;">
+            Empowering students and job seekers with instant resume skill extraction, intelligent job matching, interactive learning roadmaps, and adaptive AI assessments.
+          </p>
+        </div>
+
+        <div class="footer-nav">
+          <div class="footer-nav-col">
+            <div style="font-weight: 700; font-size: 0.88rem; color: #1e293b; margin-bottom: 0.75rem;">Navigation</div>
+            <a href="#home" data-navigate="home">🏠 Home</a>
+            <a href="#dashboard" data-navigate="dashboard">📊 Dashboard</a>
+            <a href="#resume" data-navigate="resume">📄 Resume Analyzer</a>
+            <a href="#jd" data-navigate="jd">🎯 Job Matcher</a>
+          </div>
+          <div class="footer-nav-col">
+            <div style="font-weight: 700; font-size: 0.88rem; color: #1e293b; margin-bottom: 0.75rem;">Features</div>
+            <a href="#gap" data-navigate="gap">⚡ Skill Gap &amp; Roadmap</a>
+            <a href="#quiz" data-navigate="quiz">📝 AI Assessment Quiz</a>
+            <a href="#progress" data-navigate="progress">📈 Progress Tracking</a>
+            <a href="#admin" data-navigate="admin" style="color: #4f46e5; font-weight: 700;">🛡️ Admin Portal</a>
+            <a href="#auth" data-navigate="auth">🔐 Account / Sign In</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <div style="font-size: 0.82rem; color: #94a3b8;">
+          &copy; 2026 <strong>CareerReady AI</strong>. Built for Student &amp; Fresher Career Readiness.
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #10b981; font-weight: 600; background: #ecfdf5; padding: 0.35rem 0.85rem; border-radius: 9999px; border: 1px solid #a7f3d0;">
+          <span class="status-indicator"></span> System Operational &amp; Ready
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- PDF.js library for high-speed client-side and fallback parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/resume.js"></script>
+  <script src="js/jd.js"></script>
+  <script src="js/gap.js"></script>
+  <script src="js/roadmap.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
