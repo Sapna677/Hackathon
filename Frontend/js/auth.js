@@ -241,6 +241,10 @@ const Auth = {
       if (adminNav) adminNav.style.display = 'none';
       if (adminBrandBadge) adminBrandBadge.style.display = adminActive ? 'inline-block' : 'none';
       if (navBrandSubtitle) navBrandSubtitle.textContent = adminActive ? 'Administrator (Candidate Sandbox)' : 'Skill Gap & Readiness Platform';
+      const studentNavAdminReturn = document.getElementById('studentNavAdminReturn');
+      if (studentNavAdminReturn) {
+        studentNavAdminReturn.style.display = adminActive ? 'flex' : 'none';
+      }
     }
 
     this.updateHomeContent();

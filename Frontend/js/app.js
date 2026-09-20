@@ -99,6 +99,10 @@ const App = {
       if (adminNav) adminNav.style.display = 'none';
       if (adminBrandBadge) adminBrandBadge.style.display = isAdmin ? 'inline-block' : 'none';
       if (navBrandSubtitle) navBrandSubtitle.textContent = isAdmin ? 'Administrator (Candidate Sandbox)' : 'Skill Gap & Readiness Platform';
+      const studentNavAdminReturn = document.getElementById('studentNavAdminReturn');
+      if (studentNavAdminReturn) {
+        studentNavAdminReturn.style.display = isAdmin ? 'flex' : 'none';
+      }
     }
 
     if (window.Auth && window.Auth.updateHomeContent) {
