@@ -228,6 +228,7 @@ const Auth = {
     const adminBrandBadge = document.getElementById('adminBrandBadge');
     const navBrandSubtitle = document.getElementById('navBrandSubtitle');
 
+    const adminActive = this.isAdmin();
     const onAdminPage = window.App && window.App.activeView === 'admin';
 
     if (onAdminPage) {
