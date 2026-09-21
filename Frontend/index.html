@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=4.0">
+  <link rel="stylesheet" href="css/styles.css?v=5.0">
 </head>
 <body>
 
@@ -80,42 +80,82 @@
   <div id="view-home" class="view-container active">
     <!-- Student / Candidate Home Layout -->
     <div id="studentHomeContent">
-      <!-- Hero Banner -->
-      <div style="text-align: center; padding: 3rem 1rem 2.5rem; max-width: 900px; margin: 0 auto;">
-        <div class="badge hero-floating-badge" style="background: var(--primary-light); color: var(--primary); margin-bottom: 1rem; padding: 0.4rem 1rem; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);">
-          ✨ From Your Resume ➔ To Your Dream Job ➔ With AI Guidance
-        </div>
-        <h1 style="font-size: 2.75rem; font-weight: 800; line-height: 1.2; color: var(--dark-bg); margin-bottom: 1.25rem;">
-          AI-Powered Career Readiness &amp; <span class="text-shimmer">Skill Gap Platform</span>
-        </h1>
-        <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 720px; margin: 0 auto 1.5rem;">
-          Stop guessing what skills you are missing. Upload your resume, match it with target job descriptions, receive a personalized week-by-week learning roadmap, and test yourself with AI-generated quizzes.
-        </p>
+      <!-- Modern Animated SaaS Hero Banner -->
+      <div class="hero-banner-wrapper">
+        <!-- Ambient Glowing Aura Orb & High-Tech Grid -->
+        <div class="hero-glow-orb"></div>
+        <div class="hero-grid-pattern"></div>
 
-        <!-- Floating SaaS Feature Badges -->
-        <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem;">
-          <span class="badge hero-floating-badge" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; font-size: 0.82rem; padding: 0.35rem 0.85rem; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.1);">
-            ⚡ 100% Automated ATS Parsing
-          </span>
-          <span class="badge hero-floating-badge-2" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-size: 0.82rem; padding: 0.35rem 0.85rem; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);">
-            🎯 Custom 4-Week Curriculum
-          </span>
-          <span class="badge hero-floating-badge" style="background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.82rem; padding: 0.35rem 0.85rem; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);">
-            🤖 Adaptive AI Assessment Quiz
-          </span>
+        <!-- Left Flanking Floating Glassmorphism Preview Card (ATS Match) -->
+        <div class="hero-float-card hero-float-left">
+          <div class="hero-float-header">
+            <span class="hero-float-icon" style="background: #ecfdf5; color: #059669;">⚡</span>
+            <div>
+              <div class="hero-float-title">ATS Resume Match</div>
+              <div class="hero-float-sub">Target: Full-Stack Dev</div>
+            </div>
+            <span class="hero-float-score" style="background: #d1fae5; color: #065f46;">94%</span>
+          </div>
+          <div class="hero-float-tags">
+            <span class="hero-float-tag">✓ React</span>
+            <span class="hero-float-tag">✓ Node.js</span>
+            <span class="hero-float-tag">✓ SQL</span>
+          </div>
         </div>
 
-        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-          <button class="btn btn-primary" style="padding: 0.85rem 1.8rem; font-size: 1rem;" data-navigate="resume">
-            🚀 Get Started - Upload Resume
-          </button>
-          <button id="demoLoginInlineBtn" class="btn btn-demo" style="padding: 0.85rem 1.5rem; font-size: 1rem;">
-            ⚡ Instant Demo Showcase
-          </button>
-          <button id="heroOpenChatBtn" class="btn btn-secondary" style="padding: 0.85rem 1.5rem; font-size: 1rem; color: #4338ca; border-color: #a5b4fc; background: #f5f3ff; font-weight: 700; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12); display: inline-flex; align-items: center; gap: 0.4rem;" onclick="window.ChatbotManager &amp;&amp; window.ChatbotManager.openChat()">
-            <span>🤖</span>
-            <span>Ask AI Career Mentor</span>
-          </button>
+        <!-- Right Flanking Floating Glassmorphism Preview Card (Readiness Score) -->
+        <div class="hero-float-card hero-float-right">
+          <div class="hero-float-header">
+            <span class="hero-float-icon" style="background: #eef2ff; color: #4f46e5;">🎯</span>
+            <div>
+              <div class="hero-float-title">Career Readiness</div>
+              <div class="hero-float-sub">AI Evaluated Score</div>
+            </div>
+            <span class="hero-float-score" style="background: #e0e7ff; color: #3730a3;">88/100</span>
+          </div>
+          <div class="hero-progress-bar-wrap">
+            <div class="hero-progress-bar-fill"></div>
+          </div>
+          <div class="hero-float-note">🚀 Job Ready in 2 Weeks</div>
+        </div>
+
+        <!-- Center Hero Content -->
+        <div class="hero-content-inner">
+          <div class="badge hero-floating-badge" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; margin-bottom: 1.25rem; padding: 0.45rem 1.15rem; font-size: 0.85rem; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12);">
+            ✨ From Your Resume ➔ To Your Dream Job ➔ With AI Guidance
+          </div>
+          <h1 style="font-size: 2.85rem; font-weight: 800; line-height: 1.2; color: #0f172a; margin-bottom: 1.25rem; letter-spacing: -0.02em;">
+            AI-Powered Career Readiness &amp; <span class="text-shimmer">Skill Gap Platform</span>
+          </h1>
+          <p style="font-size: 1.15rem; color: #475569; max-width: 680px; margin: 0 auto 1.75rem; line-height: 1.6;">
+            Stop guessing what skills you are missing. Upload your resume, match it with target job descriptions, receive a personalized week-by-week learning roadmap, and test yourself with AI-generated quizzes.
+          </p>
+
+          <!-- Floating SaaS Feature Badges -->
+          <div style="display: flex; justify-content: center; gap: 0.85rem; flex-wrap: wrap; margin-bottom: 2.25rem;">
+            <span class="badge hero-floating-badge" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; font-size: 0.85rem; padding: 0.4rem 0.95rem; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);">
+              ⚡ 100% Automated ATS Parsing
+            </span>
+            <span class="badge hero-floating-badge-2" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-size: 0.85rem; padding: 0.4rem 0.95rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12);">
+              🎯 Custom 4-Week Curriculum
+            </span>
+            <span class="badge hero-floating-badge" style="background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.85rem; padding: 0.4rem 0.95rem; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.12);">
+              🤖 Adaptive AI Assessment Quiz
+            </span>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn btn-primary hero-cta-primary" style="padding: 0.9rem 2rem; font-size: 1.02rem; font-weight: 700;" data-navigate="resume">
+              🚀 Get Started - Upload Resume
+            </button>
+            <button id="demoLoginInlineBtn" class="btn btn-demo" style="padding: 0.9rem 1.6rem; font-size: 1rem;">
+              ⚡ Instant Demo Showcase
+            </button>
+            <button id="heroOpenChatBtn" class="btn btn-secondary" style="padding: 0.9rem 1.6rem; font-size: 1rem; color: #4338ca; border-color: #a5b4fc; background: #f5f3ff; font-weight: 700; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12); display: inline-flex; align-items: center; gap: 0.45rem;" onclick="window.ChatbotManager &amp;&amp; window.ChatbotManager.openChat()">
+              <span>🤖</span>
+              <span>Ask AI Career Mentor</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -154,23 +194,23 @@
           👥 Designed Specially For:
         </h3>
         <div class="grid-4">
-          <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
-            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🎓</div>
+          <div class="target-user-card">
+            <div class="target-user-icon">🎓</div>
             <h4 style="font-size: 1rem; font-weight: 700;">College Students</h4>
             <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Prepare semester projects tailored to industry tech stacks.</p>
           </div>
-          <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
-            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">💼</div>
+          <div class="target-user-card">
+            <div class="target-user-icon">💼</div>
             <h4 style="font-size: 1rem; font-weight: 700;">Freshers</h4>
             <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Bridge the gap between campus syllabus and company expectations.</p>
           </div>
-          <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
-            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🔍</div>
+          <div class="target-user-card">
+            <div class="target-user-icon">🔍</div>
             <h4 style="font-size: 1rem; font-weight: 700;">Job Seekers</h4>
             <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Target dream roles by fixing missing qualifications.</p>
           </div>
-          <div style="text-align: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
-            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🚀</div>
+          <div class="target-user-card">
+            <div class="target-user-icon">🚀</div>
             <h4 style="font-size: 1rem; font-weight: 700;">Internship Seekers</h4>
             <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem;">Accelerate hiring readiness from 8 weeks to 4 weeks.</p>
           </div>
@@ -178,7 +218,7 @@
       </div>
 
       <!-- Section 5: Success Metrics Banner -->
-      <div class="card" style="background: linear-gradient(135deg, #1e1b4b, #312e81); color: white; margin-top: 1rem;">
+      <div class="card metrics-impact-card" style="background: linear-gradient(135deg, #1e1b4b, #312e81); color: white; margin-top: 1rem;">
         <h3 style="font-size: 1.15rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; letter-spacing: 0.5px;">
           🌟 Proven Impact &amp; Success Metrics
         </h3>
@@ -1467,16 +1507,16 @@
   </script>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=4.0"></script>
-  <script src="js/auth.js?v=4.0"></script>
-  <script src="js/resume.js?v=4.0"></script>
-  <script src="js/jd.js?v=4.0"></script>
-  <script src="js/gap.js?v=4.0"></script>
-  <script src="js/roadmap.js?v=4.0"></script>
-  <script src="js/quiz.js?v=4.0"></script>
-  <script src="js/progress.js?v=4.0"></script>
-  <script src="js/admin.js?v=4.0"></script>
-  <script src="js/chat.js?v=4.0"></script>
-  <script src="js/app.js?v=4.0"></script>
+  <script src="js/api.js?v=5.0"></script>
+  <script src="js/auth.js?v=5.0"></script>
+  <script src="js/resume.js?v=5.0"></script>
+  <script src="js/jd.js?v=5.0"></script>
+  <script src="js/gap.js?v=5.0"></script>
+  <script src="js/roadmap.js?v=5.0"></script>
+  <script src="js/quiz.js?v=5.0"></script>
+  <script src="js/progress.js?v=5.0"></script>
+  <script src="js/admin.js?v=5.0"></script>
+  <script src="js/chat.js?v=5.0"></script>
+  <script src="js/app.js?v=5.0"></script>
 </body>
 </html>
