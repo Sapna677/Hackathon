@@ -205,40 +205,108 @@ window.App = App;
 // Third-party browser extension containment (e.g., Careerflow Chrome Extension)
 function suppressInjectedExtensions() {
   try {
+    const targetKeywords = [
+      'careerflow',
+      'careercopilot',
+      'iamyourcareercopilot',
+      'savejobto',
+      'savejobtotracker',
+      'viewjobtracker',
+      'aicoverletter',
+      'summarizejobdescription',
+      'ailinkedinpost',
+      'linkedinoptimization',
+      'supersearch',
+      'seewhoishiring'
+    ];
+
+    const matchesRogue = (str) => {
+      if (!str) return false;
+      const clean = str.toLowerCase().replace(/[\s\-_]+/g, '');
+      return targetKeywords.some(kw => clean.includes(kw));
+    };
+
+    // 1. Selector-based suppression and complete DOM removal
     const extensionSelectors = [
       '[id*="careerflow" i]',
       '[class*="careerflow" i]',
       '[data-careerflow]',
+      '[id*="copilot" i]:not(#aiChatbotWidget *):not(#aiAnalysisStepperModal *)',
+      '[class*="copilot" i]:not(#aiChatbotWidget *):not(#aiAnalysisStepperModal *)',
       'img[alt*="Careerflow" i]',
-      'img[alt="hello"]',
-      '[aria-label*="Careerflow" i]'
+      'img[alt="hello" i]',
+      'img[src*="careerflow" i]',
+      '[aria-label*="Careerflow" i]',
+      '[data-testid*="careerflow" i]',
+      '#careerflow-container',
+      '#careerflow-root',
+      '#careerflow-sidebar',
+      '.careerflow-widget',
+      '#careerflow-sidebar-container',
+      'careerflow-app',
+      'careerflow-root',
+      'iframe[src*="careerflow" i]',
+      'iframe[id*="careerflow" i]',
+      'iframe[class*="careerflow" i]'
     ];
-    
+
     extensionSelectors.forEach(sel => {
       document.querySelectorAll(sel).forEach(el => {
-        // Protect native app widgets
         if (el.closest('#aiChatbotWidget, #aiAnalysisStepperModal, #adminUserModal, .ai-chat-widget')) {
-          el.remove();
           return;
         }
-        const wrapper = el.closest('div:not(.view-container):not(.navbar):not(.app-footer):not(.ai-chat-widget):not(#aiAnalysisStepperModal):not(#adminUserModal)') || el;
-        if (wrapper && (wrapper.id === 'aiChatbotWidget' || wrapper.id === 'aiAnalysisStepperModal' || wrapper.classList.contains('ai-chat-widget'))) {
-          return;
+        let root = el;
+        while (root.parentElement && root.parentElement !== document.body && root.parentElement !== document.documentElement) {
+          if (root.parentElement.matches('nav, .view-container, footer, #toastContainer')) {
+            break;
+          }
+          root = root.parentElement;
         }
-        wrapper.style.setProperty('display', 'none', 'important');
-        wrapper.style.setProperty('visibility', 'hidden', 'important');
-        wrapper.style.setProperty('height', '0px', 'important');
+        root.style.setProperty('display', 'none', 'important');
+        root.style.setProperty('visibility', 'hidden', 'important');
+        root.style.setProperty('height', '0px', 'important');
+        try { root.remove(); } catch (_) {}
       });
     });
 
-    // Check any rogue injected text blocks at document body level
-    Array.from(document.body.children).forEach(child => {
-      if (child.matches('nav, .view-container, footer, .toast-container, script, link, style, .ai-chat-widget, #aiAnalysisStepperModal, #adminUserModal') || child.id === 'aiChatbotWidget' || child.id === 'aiAnalysisStepperModal' || child.classList.contains('ai-chat-widget')) {
+    // 2. Direct body children check (remove any unrecognized top-level injected containers)
+    if (document.body) {
+      Array.from(document.body.children).forEach(child => {
+        if (child.matches('nav, .view-container, footer, .toast-container, script, link, style, .ai-chat-widget, #aiAnalysisStepperModal, #adminUserModal, #toastContainer') ||
+            child.id === 'aiChatbotWidget' || child.id === 'aiAnalysisStepperModal' || child.id === 'toastContainer' || child.id === 'adminUserModal' || child.classList.contains('ai-chat-widget')) {
+          return;
+        }
+        const text = (child.innerText || child.textContent || '') + ' ' + Array.from(child.querySelectorAll('img')).map(i => (i.alt || '') + ' ' + (i.src || '')).join(' ');
+        if (matchesRogue(text) || child.querySelector('img[alt*="Careerflow" i], img[alt="hello" i]')) {
+          child.style.setProperty('display', 'none', 'important');
+          try { child.remove(); } catch (_) {}
+        } else {
+          // Any other unrecognized element injected directly into body
+          child.style.setProperty('display', 'none', 'important');
+          child.style.setProperty('visibility', 'hidden', 'important');
+          try { child.remove(); } catch (_) {}
+        }
+      });
+    }
+
+    // 3. Search and destroy rogue text elements anywhere in DOM
+    document.querySelectorAll('div, span, p, a, button, section, aside, img').forEach(el => {
+      if (el.closest('#aiChatbotWidget, #aiAnalysisStepperModal, #adminUserModal, .ai-chat-widget')) return;
+      if (el.tagName === 'IMG') {
+        const alt = el.getAttribute('alt') || '';
+        const src = el.getAttribute('src') || '';
+        if (alt.toLowerCase().includes('careerflow') || alt === 'hello' || src.toLowerCase().includes('careerflow')) {
+          let root = el.closest('div:not(.view-container):not(.navbar):not(.app-footer)') || el;
+          root.style.setProperty('display', 'none', 'important');
+          try { root.remove(); } catch (_) {}
+        }
         return;
       }
-      const text = child.innerText || child.textContent || '';
-      if (text.includes('Careerflow') || text.includes('iAmYourCareerCopilot') || text.includes('SaveJobToTracker')) {
-        child.style.setProperty('display', 'none', 'important');
+      const raw = el.innerText || el.textContent || '';
+      if (raw && raw.length < 500 && (raw.includes('iAmYourCareerCopilot') || raw.includes('SaveJobtoTracker') || raw.includes('ViewJobTracker') || raw.includes('Careerflow Extension') || raw.includes('SeeWhoIsHiring!'))) {
+        let root = el.closest('div:not(.view-container):not(.navbar):not(.app-footer)') || el;
+        root.style.setProperty('display', 'none', 'important');
+        try { root.remove(); } catch (_) {}
       }
     });
   } catch (e) {
@@ -246,12 +314,37 @@ function suppressInjectedExtensions() {
   }
 }
 
+// Set up continuous real-time MutationObserver
+try {
+  const extensionObserver = new MutationObserver((mutations) => {
+    let shouldScan = false;
+    for (const m of mutations) {
+      if (m.addedNodes && m.addedNodes.length > 0) {
+        shouldScan = true;
+        break;
+      }
+    }
+    if (shouldScan) {
+      suppressInjectedExtensions();
+    }
+  });
+
+  if (document.documentElement) {
+    extensionObserver.observe(document.documentElement, { childList: true, subtree: true });
+  }
+} catch (_) {}
+
+// Run immediately and periodically
+suppressInjectedExtensions();
+
 // Bootstrap on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   App.init();
   suppressInjectedExtensions();
-  setTimeout(suppressInjectedExtensions, 500);
-  setTimeout(suppressInjectedExtensions, 1500);
-  setTimeout(suppressInjectedExtensions, 3000);
+  setTimeout(suppressInjectedExtensions, 300);
+  setTimeout(suppressInjectedExtensions, 1000);
+  setTimeout(suppressInjectedExtensions, 2500);
+  setInterval(suppressInjectedExtensions, 1500);
 });
+
 

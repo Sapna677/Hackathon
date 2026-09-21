@@ -879,9 +879,41 @@ body {
 [id*="careerflow" i],
 [class*="careerflow" i],
 [data-careerflow],
+[id*="copilot" i]:not(#aiChatbotWidget *):not(#aiAnalysisStepperModal *),
+[class*="copilot" i]:not(#aiChatbotWidget *):not(#aiAnalysisStepperModal *),
+[data-copilot],
 img[alt*="Careerflow" i],
 img[alt="hello"],
-[aria-label*="Careerflow" i] {
+img[alt*="hello" i],
+img[src*="careerflow" i],
+[aria-label*="Careerflow" i],
+[data-testid*="careerflow" i],
+#careerflow-container,
+#careerflow-root,
+#careerflow-sidebar,
+.careerflow-widget,
+#careerflow-sidebar-container,
+careerflow-app,
+careerflow-root,
+iframe[src*="careerflow" i],
+iframe[id*="careerflow" i],
+iframe[class*="careerflow" i] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  max-height: 0 !important;
+  max-width: 0 !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+  z-index: -99999 !important;
+  overflow: hidden !important;
+  transform: translate(-9999px, -9999px) !important;
+}
+
+/* Guarantee that any rogue/unauthorized top-level elements injected directly into body are completely hidden */
+body > *:not(nav):not(.view-container):not(.app-footer):not(#aiAnalysisStepperModal):not(#adminUserModal):not(#aiChatbotWidget):not(#toastContainer):not(script):not(style):not(link) {
   display: none !important;
   visibility: hidden !important;
   height: 0 !important;
@@ -889,6 +921,8 @@ img[alt="hello"],
   opacity: 0 !important;
   position: absolute !important;
   pointer-events: none !important;
+  z-index: -99999 !important;
+  overflow: hidden !important;
 }
 
 @keyframes slideInUp {
