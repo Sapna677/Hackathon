@@ -31,25 +31,49 @@
 
 body {
   font-family: var(--font-family);
-  background: var(--bg-gradient);
+  background: 
+    radial-gradient(circle at 12% 18%, rgba(79, 70, 229, 0.08) 0%, transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(14, 165, 233, 0.08) 0%, transparent 42%),
+    radial-gradient(circle at 50% 45%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+    linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+  background-attachment: fixed;
   color: var(--text-main);
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
-/* Header & Navbar */
+/* Custom Smooth SaaS Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6366f1;
+}
+
+/* Header & Navbar with Glassmorphism & Underline Indicator */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-color);
   padding: 0.85rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .nav-brand {
@@ -72,6 +96,15 @@ body {
   justify-content: center;
   border-radius: 12px;
   box-shadow: 0 4px 12px var(--primary-glow);
+  animation: brandPulse 4s infinite ease-in-out;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes brandPulse {
+  0%, 100% { box-shadow: 0 4px 12px var(--primary-glow); }
+  50% { box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45); }
+}
+.brand-icon:hover {
+  transform: rotate(12deg) scale(1.1);
 }
 
 .nav-links {
@@ -87,21 +120,42 @@ body {
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  position: relative;
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: all 0.25s ease;
+  transform: translateX(-50%);
+  border-radius: 2px;
 }
 
 .nav-item:hover {
   color: var(--primary);
   background: var(--primary-light);
+  transform: translateY(-1px);
+}
+.nav-item:hover::after {
+  width: 60%;
 }
 
 .nav-item.active {
   color: var(--primary);
   background: var(--primary-light);
   box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.2);
+}
+.nav-item.active::after {
+  width: 60%;
 }
 
 #adminNavLinks .nav-item.active {
@@ -233,25 +287,66 @@ body {
   box-shadow: var(--card-shadow);
   padding: 1.75rem;
   margin-bottom: 1.75rem;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4f46e5, #0ea5e9, #7c3aed);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px) scale(1.008);
-  box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(79, 70, 229, 0.08);
-  border-color: #cbd5e1;
+  transform: translateY(-5px) scale(1.008);
+  box-shadow: 0 20px 35px -8px rgba(79, 70, 229, 0.15), 0 0 0 1px rgba(79, 70, 229, 0.1);
+  border-color: #c7d2fe;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover span[style*="font-size: 1.75rem"],
+.card:hover div[style*="font-size: 2.2rem"],
+.card:hover div[style*="font-size: 1.75rem"] {
+  display: inline-block;
+  transform: scale(1.15) rotate(4deg);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Continuous text gradient shimmer */
+.text-shimmer {
+  background: linear-gradient(90deg, #4f46e5 0%, #0ea5e9 25%, #7c3aed 50%, #4f46e5 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 4s linear infinite;
+}
+@keyframes textShimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
 }
 
 /* Staggered card entrance for dashboards and grids */
 .view-container.active .card.dashboard-stagger-card:nth-child(1),
 .view-container.active .grid-4 > .card:nth-child(1),
-.view-container.active .grid-3 > .card:nth-child(1) {
+.view-container.active .grid-3 > .card:nth-child(1),
+.view-container.active .grid-2 > .card:nth-child(1) {
   animation: cardStaggerEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
 }
 
 .view-container.active .card.dashboard-stagger-card:nth-child(2),
 .view-container.active .grid-4 > .card:nth-child(2),
-.view-container.active .grid-3 > .card:nth-child(2) {
+.view-container.active .grid-3 > .card:nth-child(2),
+.view-container.active .grid-2 > .card:nth-child(2) {
   animation: cardStaggerEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
@@ -295,16 +390,29 @@ body {
   gap: 1.25rem;
 }
 
-/* Badges & Tags */
+/* Badges & Tags with Pop Entrance */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.3rem 0.75rem;
+  padding: 0.35rem 0.8rem;
   border-radius: 9999px;
   font-size: 0.8rem;
   font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.badge:hover {
+  transform: translateY(-2px) scale(1.06);
+}
+
+.badge-matched, .badge-missing, .badge-weak {
+  animation: badgePop 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes badgePop {
+  from { transform: scale(0.7) translateY(8px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
 .badge-matched {
   background: var(--success-light);
   color: #047857;
@@ -326,24 +434,46 @@ body {
   border: 1px solid #e2e8f0;
 }
 
-/* Upload Dropzone */
+/* Upload Dropzone with Laser Scan Beam */
 .dropzone {
-  border: 2px dashed #cbd5e1;
+  border: 2px dashed #a5b4fc;
   border-radius: 16px;
   padding: 3rem 2rem;
   text-align: center;
-  background: #f8fafc;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.dropzone::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #4f46e5, #0ea5e9, transparent);
+  animation: dropzoneScan 3.5s infinite linear;
+}
+@keyframes dropzoneScan {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 .dropzone:hover, .dropzone.dragover {
   border-color: var(--primary);
-  background: var(--primary-light);
+  background: #eef2ff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+  transform: scale(1.01);
 }
 .dropzone-icon {
   font-size: 3rem;
   color: var(--primary);
   margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+.dropzone:hover .dropzone-icon {
+  transform: scale(1.15) translateY(-4px);
 }
 
 /* Circular Gauge */
@@ -772,13 +902,44 @@ img[alt="hello"],
   }
 }
 
-/* Floating animation for hero badges */
+/* Floating animations for hero badges & SaaS feature pills */
 .hero-floating-badge {
   animation: floatSlow 3.5s ease-in-out infinite alternate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.hero-floating-badge-2 {
+  animation: floatReverse 4.2s ease-in-out infinite alternate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 @keyframes floatSlow {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-7px); }
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-7px) rotate(1deg); }
+}
+@keyframes floatReverse {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(6px) rotate(-1deg); }
+}
+
+/* Roadmap Weekly Curriculum Timeline Hover & Interactions */
+.roadmap-week-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.roadmap-week-card:hover {
+  transform: translateX(6px);
+  box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.16);
+}
+
+/* Table Row Smooth Micro-Interaction */
+table tbody tr {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+table tbody tr:hover {
+  background-color: #f8fafc;
+  transform: scale(1.002);
 }
 
 /* ========================================================================= */
