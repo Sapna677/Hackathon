@@ -112,6 +112,10 @@ const ChatbotManager = {
     if (badge) {
       badge.style.display = 'none';
     }
+    const callout = document.getElementById('aiChatCalloutTooltip');
+    if (callout) {
+      callout.style.display = 'none';
+    }
 
     this.isOpen = true;
 
@@ -126,6 +130,7 @@ const ChatbotManager = {
   closeChat() {
     const windowEl = document.getElementById('aiChatWindow');
     const launcher = document.getElementById('aiChatLauncherBtn');
+    const callout = document.getElementById('aiChatCalloutTooltip');
 
     if (windowEl) {
       windowEl.classList.remove('active');
@@ -138,6 +143,9 @@ const ChatbotManager = {
 
     if (launcher) {
       launcher.classList.remove('opened');
+    }
+    if (callout) {
+      callout.style.display = 'flex';
     }
 
     this.isOpen = false;

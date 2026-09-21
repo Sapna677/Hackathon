@@ -171,10 +171,16 @@ const App = {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Trigger view-specific activations
-    if (viewId === 'home' && isAdmin) {
-      if (window.AdminManager && window.AdminManager.loadOverview) {
+    if (viewId === 'home') {
+      if (isAdmin && window.AdminManager && window.AdminManager.loadOverview) {
         window.AdminManager.loadOverview();
       }
+      const g = document.getElementById('homeMetricGap');
+      if (g && window.animateCountUp) window.animateCountUp(g, 0, 60, 900, '%');
+      const q = document.getElementById('homeMetricQuiz');
+      if (q && window.animateCountUp) window.animateCountUp(q, 0, 78, 900, '%');
+      const r = document.getElementById('homeMetricRetention');
+      if (r && window.animateCountUp) window.animateCountUp(r, 0, 94, 900, '%');
     }
     if (viewId === 'progress' || viewId === 'dashboard') {
       if (window.ProgressManager) {
@@ -210,7 +216,15 @@ function suppressInjectedExtensions() {
     
     extensionSelectors.forEach(sel => {
       document.querySelectorAll(sel).forEach(el => {
-        const wrapper = el.closest('div:not(.view-container):not(.navbar):not(.app-footer)') || el;
+        // Protect native app widgets
+        if (el.closest('#aiChatbotWidget, #aiAnalysisStepperModal, #adminUserModal, .ai-chat-widget')) {
+          el.remove();
+          return;
+        }
+        const wrapper = el.closest('div:not(.view-container):not(.navbar):not(.app-footer):not(.ai-chat-widget):not(#aiAnalysisStepperModal):not(#adminUserModal)') || el;
+        if (wrapper && (wrapper.id === 'aiChatbotWidget' || wrapper.id === 'aiAnalysisStepperModal' || wrapper.classList.contains('ai-chat-widget'))) {
+          return;
+        }
         wrapper.style.setProperty('display', 'none', 'important');
         wrapper.style.setProperty('visibility', 'hidden', 'important');
         wrapper.style.setProperty('height', '0px', 'important');
@@ -219,11 +233,12 @@ function suppressInjectedExtensions() {
 
     // Check any rogue injected text blocks at document body level
     Array.from(document.body.children).forEach(child => {
-      if (!child.matches('nav, .view-container, footer, .toast-container, script, link, style')) {
-        const text = child.innerText || child.textContent || '';
-        if (text.includes('Careerflow') || text.includes('iAmYourCareerCopilot') || text.includes('SaveJobToTracker')) {
-          child.style.setProperty('display', 'none', 'important');
-        }
+      if (child.matches('nav, .view-container, footer, .toast-container, script, link, style, .ai-chat-widget, #aiAnalysisStepperModal, #adminUserModal') || child.id === 'aiChatbotWidget' || child.id === 'aiAnalysisStepperModal' || child.classList.contains('ai-chat-widget')) {
+        return;
+      }
+      const text = child.innerText || child.textContent || '';
+      if (text.includes('Careerflow') || text.includes('iAmYourCareerCopilot') || text.includes('SaveJobToTracker')) {
+        child.style.setProperty('display', 'none', 'important');
       }
     });
   } catch (e) {

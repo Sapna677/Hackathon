@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=3.5">
 </head>
 <body>
 
@@ -50,6 +50,10 @@
     <div class="nav-auth">
       <!-- Guest Controls -->
       <div id="guestAuthControls" style="display: flex; gap: 0.5rem; align-items: center;">
+        <button id="navOpenChatBtn" class="btn btn-sm" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; font-weight: 700; border: none; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35); display: inline-flex; align-items: center; gap: 0.35rem;" onclick="window.ChatbotManager &amp;&amp; window.ChatbotManager.openChat()">
+          <span>🤖</span>
+          <span>AI Mentor</span>
+        </button>
         <button id="demoLoginBtn" class="btn btn-demo btn-sm">⚡ 1-Click Demo</button>
         <button id="navAdminDirectBtn" class="btn btn-secondary btn-sm" style="color: #4338ca; border-color: #c7d2fe; font-weight: 700;">🛡️ Admin Login</button>
         <button class="btn btn-secondary btn-sm" data-navigate="auth">Sign In</button>
@@ -57,6 +61,10 @@
 
       <!-- User Profile Controls -->
       <div id="userProfileDisplay" style="display: none; align-items: center; gap: 0.75rem;">
+        <button class="btn btn-sm" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; font-weight: 700; border: none; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35); display: inline-flex; align-items: center; gap: 0.35rem;" onclick="window.ChatbotManager &amp;&amp; window.ChatbotManager.openChat()">
+          <span>🤖</span>
+          <span>AI Mentor</span>
+        </button>
         <div style="display: flex; align-items: center; gap: 0.5rem; background: var(--primary-light); padding: 0.35rem 0.85rem; border-radius: 9999px;">
           <span style="font-size: 0.9rem;">👤</span>
           <span id="navUserName" style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">User</span>
@@ -89,6 +97,10 @@
           </button>
           <button id="demoLoginInlineBtn" class="btn btn-demo" style="padding: 0.85rem 1.5rem; font-size: 1rem;">
             ⚡ Instant Demo Showcase
+          </button>
+          <button id="heroOpenChatBtn" class="btn btn-secondary" style="padding: 0.85rem 1.5rem; font-size: 1rem; color: #4338ca; border-color: #a5b4fc; background: #f5f3ff; font-weight: 700; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12); display: inline-flex; align-items: center; gap: 0.4rem;" onclick="window.ChatbotManager &amp;&amp; window.ChatbotManager.openChat()">
+            <span>🤖</span>
+            <span>Ask AI Career Mentor</span>
           </button>
         </div>
       </div>
@@ -158,19 +170,19 @@
         </h3>
         <div class="grid-4" style="text-align: center;">
           <div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #34d399;">60%</div>
+            <div id="homeMetricGap" style="font-size: 2.2rem; font-weight: 800; color: #34d399;">60%</div>
             <div style="font-size: 0.85rem; opacity: 0.85;">Skill Gap Reduction</div>
           </div>
           <div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #60a5fa;">48% ➔ 78%</div>
-            <div style="font-size: 0.85rem; opacity: 0.85;">Quiz Accuracy Improvement</div>
+            <div id="homeMetricQuiz" style="font-size: 2.2rem; font-weight: 800; color: #60a5fa;">78%</div>
+            <div style="font-size: 0.85rem; opacity: 0.85;">Quiz Accuracy Target</div>
           </div>
           <div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #fbbf24;">8w ➔ 4w</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #fbbf24;">4 Weeks</div>
             <div style="font-size: 0.85rem; opacity: 0.85;">Time to Job Readiness</div>
           </div>
           <div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #f472b6;">94%</div>
+            <div id="homeMetricRetention" style="font-size: 2.2rem; font-weight: 800; color: #f472b6;">94%</div>
             <div style="font-size: 0.85rem; opacity: 0.85;">User Engagement &amp; Retention</div>
           </div>
         </div>
@@ -1368,8 +1380,15 @@
   <!-- CAREERREADY AI FLOATING CAREER MENTOR CHATBOT WIDGET                      -->
   <!-- ========================================================================= -->
   <div id="aiChatbotWidget" class="ai-chat-widget">
+    <!-- Speech Callout Bubble -->
+    <div id="aiChatCalloutTooltip" class="ai-chat-callout" onclick="window.ChatbotManager &amp;&amp; window.ChatbotManager.openChat()">
+      <span style="font-size: 1rem;">💬</span>
+      <span>Chat with AI Career Mentor</span>
+      <span class="ai-callout-arrow"></span>
+    </div>
+
     <!-- Floating Launcher Button -->
-    <button id="aiChatLauncherBtn" class="ai-chat-launcher" title="Chat with AI Career Mentor">
+    <button id="aiChatLauncherBtn" class="ai-chat-launcher" title="Chat with AI Career Mentor" onclick="window.ChatbotManager &amp;&amp; window.ChatbotManager.toggleChat()">
       <span class="ai-launcher-icon">🤖</span>
       <span class="ai-launcher-close-icon">✕</span>
       <span class="ai-launcher-pulse"></span>
@@ -1434,16 +1453,16 @@
   </script>
 
   <!-- Scripts -->
-  <script src="js/api.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/resume.js"></script>
-  <script src="js/jd.js"></script>
-  <script src="js/gap.js"></script>
-  <script src="js/roadmap.js"></script>
-  <script src="js/quiz.js"></script>
-  <script src="js/progress.js"></script>
-  <script src="js/admin.js"></script>
-  <script src="js/chat.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/api.js?v=3.5"></script>
+  <script src="js/auth.js?v=3.5"></script>
+  <script src="js/resume.js?v=3.5"></script>
+  <script src="js/jd.js?v=3.5"></script>
+  <script src="js/gap.js?v=3.5"></script>
+  <script src="js/roadmap.js?v=3.5"></script>
+  <script src="js/quiz.js?v=3.5"></script>
+  <script src="js/progress.js?v=3.5"></script>
+  <script src="js/admin.js?v=3.5"></script>
+  <script src="js/chat.js?v=3.5"></script>
+  <script src="js/app.js?v=3.5"></script>
 </body>
 </html>
