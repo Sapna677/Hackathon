@@ -37,6 +37,7 @@ const App = {
     window.QuizManager.init();
     window.ProgressManager.init();
     if (window.AdminManager) window.AdminManager.init();
+    if (window.ChatbotManager) window.ChatbotManager.init();
 
     // Check hash route or default to home/admin
     const hash = window.location.hash.replace('#', '');

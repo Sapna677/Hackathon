@@ -74,7 +74,7 @@
     <div id="studentHomeContent">
       <!-- Hero Banner -->
       <div style="text-align: center; padding: 3rem 1rem 2.5rem; max-width: 900px; margin: 0 auto;">
-        <div class="badge" style="background: var(--primary-light); color: var(--primary); margin-bottom: 1rem; padding: 0.4rem 1rem; font-size: 0.85rem;">
+        <div class="badge hero-floating-badge" style="background: var(--primary-light); color: var(--primary); margin-bottom: 1rem; padding: 0.4rem 1rem; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);">
           ✨ From Your Resume ➔ To Your Dream Job ➔ With AI Guidance
         </div>
         <h1 style="font-size: 2.75rem; font-weight: 800; line-height: 1.2; color: var(--dark-bg); margin-bottom: 1.25rem;">
@@ -185,7 +185,7 @@
       <div style="background: linear-gradient(135deg, #0f172a, #1e1b4b, #312e81); color: white; padding: 2.75rem 2rem; border-radius: 20px; margin-bottom: 2rem; box-shadow: 0 10px 25px -5px rgba(30, 27, 75, 0.4); position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1);">
         <div style="position: absolute; right: -20px; bottom: -20px; font-size: 10rem; opacity: 0.05; user-select: none;">🛡️</div>
         <div style="max-width: 780px; position: relative; z-index: 1;">
-          <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.12); padding: 0.35rem 0.9rem; border-radius: 9999px; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem; border: 1px solid rgba(255, 255, 255, 0.2);">
+          <div class="hero-floating-badge" style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.12); padding: 0.35rem 0.9rem; border-radius: 9999px; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem; border: 1px solid rgba(255, 255, 255, 0.2);">
             <span>🛡️</span> SYSTEM ADMINISTRATOR COMMAND CENTER
           </div>
           <h1 style="font-size: 2.35rem; font-weight: 800; line-height: 1.25; margin-bottom: 1rem; color: #ffffff;">
@@ -1284,6 +1284,64 @@
     </div>
   </footer>
 
+  <!-- ========================================================================= -->
+  <!-- CAREERREADY AI FLOATING CAREER MENTOR CHATBOT WIDGET                      -->
+  <!-- ========================================================================= -->
+  <div id="aiChatbotWidget" class="ai-chat-widget">
+    <!-- Floating Launcher Button -->
+    <button id="aiChatLauncherBtn" class="ai-chat-launcher" title="Chat with AI Career Mentor">
+      <span class="ai-launcher-icon">🤖</span>
+      <span class="ai-launcher-close-icon">✕</span>
+      <span class="ai-launcher-pulse"></span>
+      <span id="aiChatUnreadBadge" class="ai-chat-badge">AI Mentor</span>
+    </button>
+
+    <!-- Expandable Chat Window -->
+    <div id="aiChatWindow" class="ai-chat-window" style="display: none;">
+      <!-- Chat Header -->
+      <div class="ai-chat-header">
+        <div class="ai-chat-header-info">
+          <div class="ai-chat-avatar-status">
+            <span style="font-size: 1.4rem;">🤖</span>
+            <span class="ai-online-dot"></span>
+          </div>
+          <div>
+            <div class="ai-chat-title">CareerReady AI Copilot</div>
+            <div class="ai-chat-subtitle">24/7 Intelligent Career &amp; Skill Coach</div>
+          </div>
+        </div>
+        <div class="ai-chat-header-actions">
+          <button id="aiChatClearBtn" class="ai-chat-action-btn" title="Clear Conversation">🗑️</button>
+          <button id="aiChatMinimizeBtn" class="ai-chat-action-btn" title="Minimize Chat">−</button>
+          <button id="aiChatCloseBtn" class="ai-chat-action-btn" title="Close Chat">✕</button>
+        </div>
+      </div>
+
+      <!-- Quick Action Prompt Chips Strip -->
+      <div id="aiChatChipsContainer" class="ai-chat-chips-strip">
+        <!-- Dynamically rendered prompt chips -->
+      </div>
+
+      <!-- Chat Messages Container -->
+      <div id="aiChatMessages" class="ai-chat-messages">
+        <!-- Chat message bubbles -->
+      </div>
+
+      <!-- Chat Input Footer -->
+      <div class="ai-chat-footer">
+        <div class="ai-chat-input-wrapper">
+          <input type="text" id="aiChatInput" class="ai-chat-input" placeholder="Ask about resume, skills, quizzes..." autocomplete="off" />
+          <button id="aiChatSendBtn" class="ai-chat-send-btn" title="Send message">
+            <span>➤</span>
+          </button>
+        </div>
+        <div class="ai-chat-footnote">
+          Powered by CareerReady AI • Context-Aware Career Guidance
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Global Toast Notification Container -->
   <div id="toastContainer" class="toast-container"></div>
 
@@ -1305,6 +1363,7 @@
   <script src="js/quiz.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/admin.js"></script>
+  <script src="js/chat.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

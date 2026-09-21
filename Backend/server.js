@@ -12,6 +12,7 @@ const roadmapRoutes = require('./routes/roadmap.routes');
 const quizRoutes = require('./routes/quiz.routes');
 const progressRoutes = require('./routes/progress.routes');
 const adminRoutes = require('./routes/admin.routes');
+const chatRoutes = require('./routes/chat.routes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -59,6 +60,7 @@ app.use('/api/roadmap', roadmapRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
