@@ -26,9 +26,13 @@ const ProgressManager = {
   renderProgress(data) {
     const stats = data.stats || {};
 
-    // Update Section 5 Success Metrics
+    // Update Section 5 Success Metrics with smooth count-up
     const metricGap = document.getElementById('metricSkillGapReduction');
-    if (metricGap) metricGap.textContent = stats.skillGapReduction || '45%';
+    if (metricGap) {
+      const gapVal = parseFloat(String(stats.skillGapReduction || '45').replace(/[^\d.-]/g, '')) || 45;
+      if (window.animateCountUp) window.animateCountUp(metricGap, 0, gapVal, 900, '%');
+      else metricGap.textContent = `${gapVal}%`;
+    }
 
     const metricAccuracy = document.getElementById('metricQuizAccuracy');
     if (metricAccuracy) metricAccuracy.textContent = stats.quizAccuracyImprovement || stats.averageQuizAccuracy || '76%';
@@ -36,8 +40,20 @@ const ProgressManager = {
     const metricTime = document.getElementById('metricTimeToReadiness');
     if (metricTime) metricTime.textContent = stats.estimatedTimeToJobReadiness || '4 Weeks';
 
+    const score = stats.readinessScore || 0;
     const metricReadiness = document.getElementById('dashboardReadinessNumber');
-    if (metricReadiness) metricReadiness.textContent = `${stats.readinessScore || 0}%`;
+    if (metricReadiness) {
+      if (window.animateCountUp) window.animateCountUp(metricReadiness, 0, score, 1000, '%');
+      else metricReadiness.textContent = `${score}%`;
+    }
+
+    const dashGauge = document.getElementById('dashboardReadinessGauge');
+    if (dashGauge) {
+      dashGauge.style.strokeDashoffset = '440';
+      setTimeout(() => {
+        dashGauge.style.strokeDashoffset = 440 - (440 * score) / 100;
+      }, 60);
+    }
 
     // Render Canvas Growth Chart
     this.renderChart(data.chartData);
@@ -54,7 +70,10 @@ const ProgressManager = {
     }
 
     const metricGap = document.getElementById('metricSkillGapReduction');
-    if (metricGap) metricGap.textContent = '60%';
+    if (metricGap) {
+      if (window.animateCountUp) window.animateCountUp(metricGap, 0, 60, 900, '%');
+      else metricGap.textContent = '60%';
+    }
 
     const metricAccuracy = document.getElementById('metricQuizAccuracy');
     if (metricAccuracy) metricAccuracy.textContent = '48% → 80%';
@@ -63,7 +82,18 @@ const ProgressManager = {
     if (metricTime) metricTime.textContent = '3 - 4 Weeks';
 
     const metricReadiness = document.getElementById('dashboardReadinessNumber');
-    if (metricReadiness) metricReadiness.textContent = `${score}%`;
+    if (metricReadiness) {
+      if (window.animateCountUp) window.animateCountUp(metricReadiness, 0, score, 1000, '%');
+      else metricReadiness.textContent = `${score}%`;
+    }
+
+    const dashGauge = document.getElementById('dashboardReadinessGauge');
+    if (dashGauge) {
+      dashGauge.style.strokeDashoffset = '440';
+      setTimeout(() => {
+        dashGauge.style.strokeDashoffset = 440 - (440 * score) / 100;
+      }, 60);
+    }
 
     this.renderChart({
       labels: ['Baseline', 'Resume Upload', 'Quiz 1', 'Week 1 Tasks', 'Current State'],

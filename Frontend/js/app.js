@@ -24,6 +24,42 @@ function showToast(message, type = 'info') {
 }
 window.showToast = showToast;
 
+/**
+ * Smooth SaaS Number Counter Animation using easeOutExpo
+ */
+function animateCountUp(element, start, end, duration = 1000, suffix = '') {
+  if (!element) return;
+  const numStart = typeof start === 'number' ? start : (parseFloat(String(start).replace(/[^\d.-]/g, '')) || 0);
+  const numEnd = typeof end === 'number' ? end : (parseFloat(String(end).replace(/[^\d.-]/g, '')) || 0);
+
+  if (isNaN(numEnd)) {
+    element.textContent = `${end}${suffix}`;
+    return;
+  }
+
+  const startTime = performance.now();
+
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Smooth easeOutExpo curve
+    const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+    const currentVal = Math.round(numStart + (numEnd - numStart) * ease);
+
+    element.textContent = `${currentVal}${suffix}`;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      element.textContent = `${numEnd}${suffix}`;
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+window.animateCountUp = animateCountUp;
+
 const App = {
   activeView: 'home',
 

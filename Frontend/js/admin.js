@@ -215,29 +215,57 @@ const AdminManager = {
     const topGaps = data.topSkillGaps || [];
     const topDemands = data.topDemandSkills || [];
 
-    // Summary Cards (Admin Console & Admin Home Page)
+    // Summary Cards (Admin Console & Admin Home Page) with smooth number counting
+    const userCount = summary.totalUsers || 0;
     const totalUsersEl = document.getElementById('adminTotalUsers');
-    if (totalUsersEl) totalUsersEl.textContent = summary.totalUsers || 0;
     const adminHomeTotalUsers = document.getElementById('adminHomeTotalUsers');
-    if (adminHomeTotalUsers) adminHomeTotalUsers.textContent = summary.totalUsers || 0;
+    if (window.animateCountUp) {
+      if (totalUsersEl) window.animateCountUp(totalUsersEl, 0, userCount, 850);
+      if (adminHomeTotalUsers) window.animateCountUp(adminHomeTotalUsers, 0, userCount, 850);
+    } else {
+      if (totalUsersEl) totalUsersEl.textContent = userCount;
+      if (adminHomeTotalUsers) adminHomeTotalUsers.textContent = userCount;
+    }
 
+    const avgScore = summary.avgReadinessScore || 0;
     const avgReadinessEl = document.getElementById('adminAvgReadiness');
-    if (avgReadinessEl) avgReadinessEl.textContent = `${summary.avgReadinessScore || 0}%`;
     const adminHomeAvgReadiness = document.getElementById('adminHomeAvgReadiness');
-    if (adminHomeAvgReadiness) adminHomeAvgReadiness.textContent = `${summary.avgReadinessScore || 0}%`;
+    if (window.animateCountUp) {
+      if (avgReadinessEl) window.animateCountUp(avgReadinessEl, 0, avgScore, 1000, '%');
+      if (adminHomeAvgReadiness) window.animateCountUp(adminHomeAvgReadiness, 0, avgScore, 1000, '%');
+    } else {
+      if (avgReadinessEl) avgReadinessEl.textContent = `${avgScore}%`;
+      if (adminHomeAvgReadiness) adminHomeAvgReadiness.textContent = `${avgScore}%`;
+    }
 
+    const quizzesCount = summary.totalQuizzesTaken || 0;
     const totalQuizzesEl = document.getElementById('adminTotalQuizzes');
-    if (totalQuizzesEl) totalQuizzesEl.textContent = summary.totalQuizzesTaken || 0;
     const adminHomeTotalQuizzes = document.getElementById('adminHomeTotalQuizzes');
-    if (adminHomeTotalQuizzes) adminHomeTotalQuizzes.textContent = summary.totalQuizzesTaken || 0;
+    if (window.animateCountUp) {
+      if (totalQuizzesEl) window.animateCountUp(totalQuizzesEl, 0, quizzesCount, 900);
+      if (adminHomeTotalQuizzes) window.animateCountUp(adminHomeTotalQuizzes, 0, quizzesCount, 900);
+    } else {
+      if (totalQuizzesEl) totalQuizzesEl.textContent = quizzesCount;
+      if (adminHomeTotalQuizzes) adminHomeTotalQuizzes.textContent = quizzesCount;
+    }
 
     const avgQuizEl = document.getElementById('adminAvgQuizAcc');
-    if (avgQuizEl) avgQuizEl.textContent = summary.avgQuizAccuracy || '0%';
+    if (avgQuizEl) {
+      const avgQuizNum = parseFloat(String(summary.avgQuizAccuracy || '0').replace(/[^\d.-]/g, '')) || 0;
+      if (window.animateCountUp) window.animateCountUp(avgQuizEl, 0, avgQuizNum, 900, '%');
+      else avgQuizEl.textContent = `${avgQuizNum}%`;
+    }
 
+    const roadmapsCount = summary.totalRoadmapsGenerated || 0;
     const totalRoadmapsEl = document.getElementById('adminTotalRoadmaps');
-    if (totalRoadmapsEl) totalRoadmapsEl.textContent = summary.totalRoadmapsGenerated || 0;
     const adminHomeTotalRoadmaps = document.getElementById('adminHomeTotalRoadmaps');
-    if (adminHomeTotalRoadmaps) adminHomeTotalRoadmaps.textContent = summary.totalRoadmapsGenerated || 0;
+    if (window.animateCountUp) {
+      if (totalRoadmapsEl) window.animateCountUp(totalRoadmapsEl, 0, roadmapsCount, 900);
+      if (adminHomeTotalRoadmaps) window.animateCountUp(adminHomeTotalRoadmaps, 0, roadmapsCount, 900);
+    } else {
+      if (totalRoadmapsEl) totalRoadmapsEl.textContent = roadmapsCount;
+      if (adminHomeTotalRoadmaps) adminHomeTotalRoadmaps.textContent = roadmapsCount;
+    }
 
     // Role Breakdown Badges / Counts
     const rolesContainer = document.getElementById('adminRoleBreakdown');

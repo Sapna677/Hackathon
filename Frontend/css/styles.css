@@ -202,22 +202,28 @@ body {
   font-size: 0.82rem;
 }
 
-/* Page Containers */
+/* Page Containers with Smooth Fade-in + Upward Movement */
 .view-container {
   display: none;
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1.5rem 4rem 1.5rem;
-  animation: fadeIn 0.3s ease;
 }
 
 .view-container.active {
   display: block;
+  animation: pageLoadSmooth 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes pageLoadSmooth {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .card {
@@ -229,10 +235,46 @@ body {
   margin-bottom: 1.75rem;
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
 }
+
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 32px -8px rgba(79, 70, 229, 0.12), 0 8px 16px -6px rgba(0, 0, 0, 0.04);
+  transform: translateY(-4px) scale(1.008);
+  box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(79, 70, 229, 0.08);
   border-color: #cbd5e1;
+}
+
+/* Staggered card entrance for dashboards and grids */
+.view-container.active .card.dashboard-stagger-card:nth-child(1),
+.view-container.active .grid-4 > .card:nth-child(1),
+.view-container.active .grid-3 > .card:nth-child(1) {
+  animation: cardStaggerEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
+}
+
+.view-container.active .card.dashboard-stagger-card:nth-child(2),
+.view-container.active .grid-4 > .card:nth-child(2),
+.view-container.active .grid-3 > .card:nth-child(2) {
+  animation: cardStaggerEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.view-container.active .card.dashboard-stagger-card:nth-child(3),
+.view-container.active .grid-4 > .card:nth-child(3),
+.view-container.active .grid-3 > .card:nth-child(3) {
+  animation: cardStaggerEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+}
+
+.view-container.active .card.dashboard-stagger-card:nth-child(4),
+.view-container.active .grid-4 > .card:nth-child(4) {
+  animation: cardStaggerEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+@keyframes cardStaggerEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .grid-2 {
@@ -387,13 +429,229 @@ body {
   border-radius: 10px;
   font-family: inherit;
   font-size: 0.95rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s ease, background 0.2s ease;
   background: white;
 }
 .form-control:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.14);
+  transform: translateY(-1px);
+}
+
+/* Subtle button press animation */
+.btn:active, button:active {
+  transform: scale(0.97) !important;
+  transition: transform 0.08s ease !important;
+}
+
+/* Option selection checkmark & highlight animation */
+.quiz-option-label {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.quiz-option-label:hover {
+  transform: translateY(-2px);
+  border-color: #a5b4fc;
+}
+.quiz-option-label.selected {
+  border-color: #4f46e5 !important;
+  background: #f5f3ff !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.16);
+  transform: scale(1.015);
+  animation: optionSelectBump 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes optionSelectBump {
+  0% { transform: scale(0.99); }
+  50% { transform: scale(1.025); }
+  100% { transform: scale(1.015); }
+}
+
+/* Ambient Animated Gradient Blobs for Login/Register */
+.auth-ambient-blobs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.auth-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(75px);
+  opacity: 0.35;
+  will-change: transform;
+}
+.auth-blob-1 {
+  width: 320px;
+  height: 320px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  top: -50px;
+  left: -50px;
+  animation: blobFloat 12s ease-in-out infinite alternate;
+}
+.auth-blob-2 {
+  width: 380px;
+  height: 380px;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  bottom: -60px;
+  right: -50px;
+  animation: blobFloat 15s ease-in-out infinite alternate-reverse;
+}
+.auth-blob-3 {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(135deg, #ec4899, #f43f5e);
+  top: 40%;
+  right: 15%;
+  animation: blobFloat 18s ease-in-out infinite alternate;
+}
+@keyframes blobFloat {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(35px, -28px) scale(1.09); }
+  100% { transform: translate(-25px, 22px) scale(0.94); }
+}
+.auth-card-animated {
+  animation: authCardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes authCardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ========================================================================= */
+/* SEQUENTIAL AI DECISION & READINESS ANALYSIS STEPPER MODAL                 */
+/* ========================================================================= */
+.analysis-stepper-card {
+  animation: stepperModalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes stepperModalIn {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.stepper-radar-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stepper-radar-icon {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.6rem;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+  position: relative;
+  z-index: 2;
+}
+.stepper-radar-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(99, 102, 241, 0.5);
+  animation: radarPulse 2s infinite ease-out;
+}
+@keyframes radarPulse {
+  0% { transform: scale(0.85); opacity: 0.9; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.stepper-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  text-align: left;
+  margin-top: 1.25rem;
+}
+.stepper-step-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stepper-step-item.pending {
+  opacity: 0.45;
+  filter: grayscale(80%);
+}
+.stepper-step-item.active {
+  opacity: 1;
+  filter: none;
+  background: #eef2ff;
+  border-color: #a5b4fc;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12);
+  transform: translateX(4px);
+}
+.stepper-step-item.completed {
+  opacity: 1;
+  filter: none;
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+.stepper-step-indicator {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: #e2e8f0;
+  color: #64748b;
+  transition: all 0.25s ease;
+}
+.stepper-step-item.active .stepper-step-indicator {
+  background: var(--primary);
+  color: white;
+}
+.stepper-step-item.completed .stepper-step-indicator {
+  background: #10b981;
+  color: white;
+}
+.step-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.stepper-step-text {
+  display: flex;
+  flex-direction: column;
+}
+.stepper-step-text strong {
+  font-size: 0.88rem;
+  color: #1e293b;
+}
+.stepper-step-text span {
+  font-size: 0.76rem;
+  color: #64748b;
 }
 
 /* Responsive */

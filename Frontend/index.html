@@ -351,17 +351,24 @@
   <!-- ========================================================================= -->
   <!-- 2. REGISTER / LOGIN VIEW                                                  -->
   <!-- ========================================================================= -->
-  <div id="view-auth" class="view-container">
-    <div style="max-width: 480px; margin: 2rem auto;">
+  <div id="view-auth" class="view-container" style="position: relative; overflow: hidden; min-height: 520px;">
+    <!-- Ambient Animated Gradient Blobs for Premium Visuals -->
+    <div class="auth-ambient-blobs">
+      <div class="auth-blob auth-blob-1"></div>
+      <div class="auth-blob auth-blob-2"></div>
+      <div class="auth-blob auth-blob-3"></div>
+    </div>
+
+    <div style="max-width: 480px; margin: 2rem auto; position: relative; z-index: 2;">
       <!-- Auth Switcher Tabs -->
-      <div style="display: flex; background: #e2e8f0; border-radius: 12px; padding: 4px; margin-bottom: 1.5rem; gap: 4px;">
+      <div style="display: flex; background: rgba(226, 232, 240, 0.85); backdrop-filter: blur(8px); border-radius: 12px; padding: 4px; margin-bottom: 1.5rem; gap: 4px;">
         <button id="tabAuthLogin" class="btn btn-secondary active" style="flex: 1; border: none; border-radius: 8px;">Sign In</button>
         <button id="tabAuthRegister" class="btn btn-secondary" style="flex: 1; border: none; border-radius: 8px;">Create Account</button>
         <button id="tabAuthAdmin" class="btn btn-secondary" style="flex: 1; border: none; border-radius: 8px; color: #4338ca; font-weight: 700;">🛡️ Admin Login</button>
       </div>
 
       <!-- Sign In Card -->
-      <div id="loginCard" class="card">
+      <div id="loginCard" class="card auth-card-animated">
         <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center;">Welcome Back 👋</h2>
         <p style="font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Sign in to access your saved resume, roadmap &amp; scores.</p>
         
@@ -387,7 +394,7 @@
       </div>
 
       <!-- Admin Login Card -->
-      <div id="adminLoginCard" class="card" style="display: none; border: 2px solid #c7d2fe; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.15);">
+      <div id="adminLoginCard" class="card auth-card-animated" style="display: none; border: 2px solid #c7d2fe; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.15);">
         <div style="text-align: center; margin-bottom: 1rem;">
           <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #4f46e5, #0ea5e9); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; margin-bottom: 0.5rem;">
             🛡️
@@ -425,7 +432,7 @@
       </div>
 
       <!-- Register Card -->
-      <div id="registerCard" class="card" style="display: none;">
+      <div id="registerCard" class="card auth-card-animated" style="display: none;">
         <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center;">Join CareerReady AI 🚀</h2>
         <p style="font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">Create your profile to start your journey.</p>
         
@@ -1149,6 +1156,79 @@
             <!-- Dynamic Users Rows -->
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SEQUENTIAL AI DECISION & READINESS ANALYSIS STEPPER MODAL                 -->
+  <!-- ========================================================================= -->
+  <div id="aiAnalysisStepperModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; padding: 1rem;">
+    <div class="card analysis-stepper-card" style="width: 100%; max-width: 520px; background: #ffffff; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25); border: 1px solid #e2e8f0; padding: 2rem 1.75rem; text-align: center;">
+      
+      <div class="stepper-radar-wrap">
+        <div class="stepper-radar-ring"></div>
+        <div class="stepper-radar-icon">⚡</div>
+      </div>
+      
+      <h3 style="font-size: 1.35rem; font-weight: 800; color: #1e293b; margin: 1rem 0 0.25rem;">AI Decision &amp; Readiness Engine</h3>
+      <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0.75rem;">Evaluating career profile, skill requirements &amp; benchmark matrices...</p>
+
+      <!-- Stepper Steps -->
+      <div class="stepper-steps-list">
+        <!-- Step 1 -->
+        <div id="stepperStep1" class="stepper-step-item pending">
+          <div class="stepper-step-indicator" id="stepperIndicator1">1</div>
+          <div class="stepper-step-text">
+            <strong>1. Analyzing Profile &amp; Criteria</strong>
+            <span>Extracting core competencies, technical stack &amp; experience level</span>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="stepperStep2" class="stepper-step-item pending">
+          <div class="stepper-step-indicator" id="stepperIndicator2">2</div>
+          <div class="stepper-step-text">
+            <strong>2. Comparing Options &amp; Requirements</strong>
+            <span>Cross-referencing target job qualifications and industry criteria</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="stepperStep3" class="stepper-step-item pending">
+          <div class="stepper-step-indicator" id="stepperIndicator3">3</div>
+          <div class="stepper-step-text">
+            <strong>3. Evaluating Factors &amp; Missing Gaps</strong>
+            <span>Isolating critical skill gaps, weak areas and high-impact competencies</span>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div id="stepperStep4" class="stepper-step-item pending">
+          <div class="stepper-step-indicator" id="stepperIndicator4">4</div>
+          <div class="stepper-step-text">
+            <strong>4. Calculating Readiness Score &amp; Roadmap</strong>
+            <span>Generating weighted readiness metrics and 4-week learning milestones</span>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div id="stepperStep5" class="stepper-step-item pending">
+          <div class="stepper-step-indicator" id="stepperIndicator5">5</div>
+          <div class="stepper-step-text">
+            <strong>5. Finalizing Decision Result</strong>
+            <span>Preparing tailored recommendations and career diagnostics report</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div style="margin-top: 1.25rem; font-size: 0.8rem; color: #64748b; display: flex; justify-content: space-between; align-items: center;">
+        <span id="stepperStatusText">Initializing AI reasoning engine...</span>
+        <span id="stepperProgressPercent" style="font-weight: 700; color: var(--primary);">0%</span>
+      </div>
+      <div style="width: 100%; height: 6px; background: #e2e8f0; border-radius: 9999px; overflow: hidden; margin-top: 0.4rem;">
+        <div id="stepperProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #4f46e5, #0ea5e9); transition: width 0.35s ease;"></div>
       </div>
     </div>
   </div>
