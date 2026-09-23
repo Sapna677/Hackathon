@@ -72,10 +72,18 @@ app.use((err, req, res, next) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`=======================================================`);
   console.log(`🚀 Career Readiness Platform Backend Server Started`);
   console.log(`📡 URL: http://localhost:${PORT}`);
   console.log(`🔍 Health Check: http://localhost:${PORT}/api/health`);
   console.log(`=======================================================`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.warn(`[Info] Port ${PORT} is already in use. Reusing active running instance.`);
+  } else {
+    console.error('Server error:', err);
+  }
 });
+
+module.exports = { app, server };

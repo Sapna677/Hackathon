@@ -20,3 +20,8 @@ desktop.ini
 .vscode/
 .idea/
 .project
+
+# Build output
+dist/
+release/
+build-dist/

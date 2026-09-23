@@ -1,0 +1,70 @@
+{
+  "name": "careerready-ai",
+  "version": "1.0.0",
+  "productName": "CareerReady AI",
+  "description": "AI-Powered Career Readiness & Skill Gap Platform - Standalone Desktop Application",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "node Backend/server.js",
+    "desktop": "electron .",
+    "dev": "electron .",
+    "dist:win": "electron-builder --win nsis portable",
+    "dist:portable": "electron-builder --win portable",
+    "dist:installer": "electron-builder --win nsis"
+  },
+  "keywords": [
+    "career-readiness",
+    "skill-gap",
+    "electron",
+    "desktop-app",
+    "offline-ai",
+    "resume-analyzer"
+  ],
+  "author": "CareerReady AI Team",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "electron": "^31.3.1",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.careerready.ai",
+    "productName": "CareerReady AI",
+    "copyright": "Copyright © 2026 CareerReady AI",
+    "directories": {
+      "output": "build-dist"
+    },
+    "asar": false,
+    "forceCodeSigning": false,
+    "files": [
+      "Backend/**/*",
+      "Frontend/**/*",
+      "electron-main.js",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CareerReady AI"
+    },
+    "portable": {
+      "artifactName": "CareerReady-AI-Portable-${version}.exe"
+    }
+  }
+}
